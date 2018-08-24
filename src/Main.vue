@@ -1,16 +1,39 @@
 <template>
-    <Admin :auth="auth" :dataSource="dataSource">
-        <Resource/>
-    </Admin>
+    <Admin :auth="auth" :dataSource="dataSource" :resources="resources"/>
 </template>
 
 <script>
 import Admin from "./vuetimin/Admin";
-import Resource from "./vuetimin/Resource";
 
 export default {
   data() {
-    return {};
+    return {
+      resources : [{
+        reference: 'hahahaj',
+        fields: [
+        {
+          text: "Dessert (100g serving)",
+          align: "left",
+          sortable: true,
+          source: "name"
+        },
+        { text: "Calories", source: "calories" },
+        { text: "Fat (g)", source: "fat" },
+        { text: "Carbs (g)", source: "carbs" },
+        { text: "Protein (g)", source: "protein" },
+        { text: "Iron (%)", source: "iron" }
+      ]
+      }, {
+        reference: 'www',
+        fields: [
+        { text: "Calories", source: "calories" },
+        { text: "Fat (g)", source: "fat" },
+        { text: "Carbs (g)", source: "carbs" },
+        { text: "Protein (g)", source: "protein" },
+        { text: "Iron (%)", source: "iron" }
+      ]
+      }]
+    };
   },
 
   methods: {
@@ -49,9 +72,13 @@ export default {
     }
   },
 
+computed: {
+Homee(){
+  return this.Home
+}
+},
   components: {
-    Admin,
-    Resource
+    Admin
   }
 };
 </script>

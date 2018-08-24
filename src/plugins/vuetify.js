@@ -13,7 +13,11 @@ import {
   VTextField,
   VForm,
   VTooltip,
-  VCard
+  VCard,
+  VAvatar,
+  VDataTable,
+  VPagination,
+  
 } from 'vuetify'
 import 'vuetify/src/stylus/app.styl'
 
@@ -28,10 +32,14 @@ Vue.use(Vuetify, {
     VGrid,
     VToolbar,
     transitions,
-  VTextField,
-  VForm,
-  VTooltip,
-  VCard
+    VTextField,
+    VForm,
+    VTooltip,
+    VCard,
+    VAvatar,
+    VDataTable,
+    VPagination,
+    
     
   },
   theme: {

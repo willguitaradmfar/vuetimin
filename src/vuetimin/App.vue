@@ -117,9 +117,26 @@
 </template>
 
 <script>
-export default {
+import List from "./list/List";
 
-  name: 'App',
+import About from "../views/About.vue";
+
+export default {
+  name: "App",
+  created() {
+    const routes = [];
+
+    for (let resource of this.$attrs.resources) {
+      routes.push({
+        path: `/${resource.reference}`,
+        name: resource.reference,
+        component: List,
+        props: { fields: resource.fields }
+      });
+    }
+
+    this.$router.addRoutes(routes);
+  },
   data: () => ({
     dialog: false,
     drawer: null,
