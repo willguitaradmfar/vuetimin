@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-data-table
-      :headers="fields"
+      :headers="list.fields"
       :items="desserts"
       :search="search"
       class="elevation-1"
@@ -17,7 +17,7 @@
         </v-tooltip>
       </template>
       <template slot="items" slot-scope="props">
-        <td  v-for="item in fields" v-bind:key="item.source">{{ props.item[item.source] }}</td>
+        <td  v-for="item in list.fields" v-bind:key="item.source">{{ props.item[item.source] }}</td>
       </template>
     </v-data-table>
   </div>
@@ -28,7 +28,7 @@
 <script>
 export default {
   created() {},
-  props: ["fields"],
+  props: ["list"],
   data() {
     return {
       search: "",

@@ -8,31 +8,49 @@ import Admin from "./vuetimin/Admin";
 export default {
   data() {
     return {
-      resources : [{
-        reference: 'hahahaj',
-        fields: [
-        {
-          text: "Dessert (100g serving)",
-          align: "left",
-          sortable: true,
-          source: "name"
+      resources: [{
+          reference: "hahahaj",
+          list: {
+            fields: [{
+                text: "asdfadsfDessert (100g serving)",
+                align: "left",
+                sortable: true,
+                source: "name"
+              },
+              { text: "Calories", source: "calories" },
+              { text: "Fat (g)", source: "fat" },
+              { text: "Carbs (g)", source: "carbs" },
+              { text: "Protein (g)", source: "protein" },
+              { text: "Iron (%)", source: "iron" },
+              { text: "Iron (%)", source: "iron" },
+              { text: "Iron (%)", source: "iron" },
+              { text: "Iron (%)", source: "iron" },
+              { text: "Iron (%)", source: "ironH" },
+            ]
+          }
         },
-        { text: "Calories", source: "calories" },
-        { text: "Fat (g)", source: "fat" },
-        { text: "Carbs (g)", source: "carbs" },
-        { text: "Protein (g)", source: "protein" },
-        { text: "Iron (%)", source: "iron" }
+        {
+          reference: "teste",
+          list: {
+            fields: [{
+                text: "asdfadsfDessert (100g serving)",
+                align: "left",
+                sortable: true,
+                source: "name"
+              },
+              { text: "Calories", source: "calories" },
+              { text: "Fat (g)", source: "fat" },
+              { text: "Carbs (g)", source: "carbs" },
+              { text: "Protein (g)", source: "protein" },
+              { text: "Iron (%)", source: "iron" },
+              { text: "Iron (%)", source: "iron" },
+              { text: "Iron (%)", source: "iron" },
+              { text: "Iron (%)", source: "iron" },
+              { text: "Iron (%)", source: "iron" },
+            ]
+          }
+        }
       ]
-      }, {
-        reference: 'www',
-        fields: [
-        { text: "Calories", source: "calories" },
-        { text: "Fat (g)", source: "fat" },
-        { text: "Carbs (g)", source: "carbs" },
-        { text: "Protein (g)", source: "protein" },
-        { text: "Iron (%)", source: "iron" }
-      ]
-      }]
     };
   },
 
@@ -72,11 +90,11 @@ export default {
     }
   },
 
-computed: {
-Homee(){
-  return this.Home
-}
-},
+  computed: {
+    Homee() {
+      return this.Home;
+    }
+  },
   components: {
     Admin
   }

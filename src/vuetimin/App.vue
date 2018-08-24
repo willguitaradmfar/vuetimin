@@ -131,7 +131,7 @@ export default {
         path: `/${resource.reference}`,
         name: resource.reference,
         component: List,
-        props: { fields: resource.fields }
+        props: { list: resource.list }
       });
     }
 
