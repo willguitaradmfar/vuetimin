@@ -1,7 +1,7 @@
 <template>
 <div>
     <Login v-if="hasLogin" :authHandler="authHandler"/>
-    <App v-if="!hasLogin" :resources="$attrs.resources"/>
+    <App v-if="!hasLogin" :resources="$attrs.resources" :dataSource="$attrs.dataSource"/>
 </div>
 </template>
 

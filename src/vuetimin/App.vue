@@ -131,7 +131,7 @@ export default {
         path: `/${resource.reference}`,
         name: resource.reference,
         component: List,
-        props: { list: resource.list }
+        props: { list: resource.list, dataSource: this.$attrs.dataSource, reference: resource.reference }
       });
     }
 
