@@ -8,12 +8,16 @@
         <v-text-field v-for="item in localList.filters" v-bind:key="item.source" v-on:keyup="load" v-model="item.search" append-icon="search" :label="item.text" single-line hide-details></v-text-field>
 
     </v-card-title>
-    <v-data-table hide-actions :pagination.sync="pagination" :headers="localList.fields" :items="desserts" :search="search" :loading="loading" select-all v-model="selected" item-key="id" class="elevation-1">
-        <v-progress-linear slot="progress" height="2" indeterminate></v-progress-linear>
+    <v-data-table 
+        :pagination.sync="pagination"
+        :total-items="pagination.totalItems"
+        :headers="localList.fields" 
+        :items="desserts" :search="search" :loading="loading" select-all v-model="selected" item-key="id" class="elevation-1">
+        <v-progress-linear slot="progress" height="1" indeterminate></v-progress-linear>
         <template slot="headerCell" slot-scope="props">
             <v-tooltip bottom>
                 <span slot="activator">{{ props.header.text }}</span>
-                <span>{{ props.text }}</span>
+                <span>{{ props.header.text }}</span>
             </v-tooltip>
         </template>
 
@@ -33,6 +37,10 @@
                 </v-icon>
             </td>
         </template>
+
+     <template slot="pageText" slot-scope="props">
+      Lignes {{ props.pageStart }} - {{ props.pageStop }} de {{ props.itemsLength }}
+    </template>
 
         <v-alert slot="no-results" :value="true" color="error" icon="warning">
             Your search for "{{ search }}" found no results.
@@ -56,35 +64,36 @@
 export default {
     watch: {
         "pagination.pageIndex" (pageIndex) {
-            this.load();
+            this.load()
         },
         "pagination.rowsPerPage" () {
-            this.load();
+            this.load()
         },
         "pagination.sortBy" () {
-            this.load();
+            this.load()
         },
         "pagination.descending" () {
-            this.load();
+            this.load()
         }
     },
     created() {
         this.$data.localList.fields = this.list.fields.map(field => ({
             ...field,
             value: field.source
-        }));
+        }))
 
-        this.$data.datasource = this.dataSource();
+        this.$data.datasource = this.dataSource()
         this.$data.localList.filters = this.$data.localList.fields.filter(
             field => !!field.filter
-        );
+        )
 
         this.$data.localList.fields.push({
             text: "Actions",
-            value: "action"
-        });
+            value: "action",
+            sortable: false
+        })
 
-        this.load();
+        this.load()
     },
     props: ["list", "dataSource", "reference"],
     data() {
@@ -104,44 +113,44 @@ export default {
             pagination: {
                 offset: 0,
                 pageIndex: 1,
-                rowsPerPage: 10,
-                sortBy: "name",
-                descending: true
+                rowsPerPage: 5,
+                sortBy: "",
+                descending: true,
+                totalItems: 1000
             }
-        };
+        }
     },
     methods: {
-        load() {            
+        load() {
+            this.$data.loading = true
             this.$data.pagination.offset =
                 (this.$data.pagination.pageIndex - 1) *
-                this.$data.pagination.rowsPerPage;
+                this.$data.pagination.rowsPerPage
 
-            clearTimeout(this.$data.loadTimeout);
+            clearTimeout(this.$data.loadTimeout)
             this.$data.loadTimeout = setTimeout(() => {
-                this.$data.loading = true;
+
                 this.datasource.GET_LIST(
                     this.reference, {
                         ...this.$data.pagination,
-                        filters: this.$data.localList.filters.filter(item => !!item.search).reduce((acc, item) => {
-                            acc[item.source] = item.search
-                            return acc
-                        }, {})
+                        filters: this.$data.localList.filters
+                            .filter(item => !!item.search)
+                            .reduce((acc, item) => {
+                                acc[item.source] = item.search
+                                return acc
+                            }, {})
                     },
                     response => {
-                        this.$data.desserts = response.data;
-                        this.$data.total = response.total / this.pagination.rowsPerPage;
-                        this.$data.loading = false;
+                        this.$data.desserts = response.data
+                        this.$data.total = response.total / this.pagination.rowsPerPage
+                        this.$data.loading = false
                         if (this.$data.desserts.length === 0) {
-                            this.$data.nodata = true;
+                            this.$data.nodata = true
                         }
                     }
-                );
-            }, 200);
-        },
-        toggleAll() {
-            if (this.selected.length) this.selected = [];
-            else this.selected = this.desserts.slice();
+                )
+            }, 200)
         }
     }
-};
+}
 </script>
