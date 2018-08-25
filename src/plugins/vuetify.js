@@ -17,6 +17,9 @@ import {
   VAvatar,
   VDataTable,
   VPagination,
+  VAlert,
+  VCheckbox,
+  VProgressLinear
   
 } from 'vuetify'
 import 'vuetify/src/stylus/app.styl'
@@ -39,7 +42,9 @@ Vue.use(Vuetify, {
     VAvatar,
     VDataTable,
     VPagination,
-    
+    VAlert,
+    VCheckbox,
+    VProgressLinear
     
   },
   theme: {
