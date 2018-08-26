@@ -61,7 +61,7 @@ export default {
 
                     return setTimeout(() => {
                         cb({
-                            total: 20000,
+                            total: 2000,
                             data: Array.apply(null, {
                                 length: args.rowsPerPage
                             }).map(_ => ({

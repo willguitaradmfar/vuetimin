@@ -10,9 +10,9 @@
     </v-card-title>
     <v-data-table 
         :pagination.sync="pagination"
-        :total-items="pagination.totalItems"
+        :total-items="total"
         :headers="localList.fields" 
-        :items="desserts" :search="search" :loading="loading" select-all v-model="selected" item-key="id" class="elevation-1">
+        :items="desserts" :loading="loading" select-all v-model="selected" item-key="id" class="elevation-1">
         <v-progress-linear slot="progress" height="1" indeterminate></v-progress-linear>
         <template slot="headerCell" slot-scope="props">
             <v-tooltip bottom>
@@ -42,8 +42,8 @@
       Lignes {{ props.pageStart }} - {{ props.pageStop }} de {{ props.itemsLength }}
     </template>
 
-        <v-alert slot="no-results" :value="true" color="error" icon="warning">
-            Your search for "{{ search }}" found no results.
+        <v-alert slot="no-results" :value="true" color="secondary">
+            Loading ....
         </v-alert>
 
         <template slot="no-data">
@@ -52,9 +52,7 @@
             </v-alert>
         </template>
     </v-data-table>
-    <div class="text-xs-center">
-        <v-pagination v-model="pagination.pageIndex" circle :length="total" :total-visible="7"></v-pagination>
-    </div>
+
 </v-card>
 </template>
 
@@ -63,7 +61,7 @@
 <script>
 export default {
     watch: {
-        "pagination.pageIndex" (pageIndex) {
+        "pagination.page" () {
             this.load()
         },
         "pagination.rowsPerPage" () {
@@ -100,7 +98,6 @@ export default {
         return {
             nodata: false,
             loading: true,
-            search: "",
             localList: {
                 filters: [],
                 fields: []
@@ -112,11 +109,9 @@ export default {
             loadTimeout: null,
             pagination: {
                 offset: 0,
-                pageIndex: 1,
-                rowsPerPage: 5,
+                rowsPerPage: 10,
                 sortBy: "",
-                descending: true,
-                totalItems: 1000
+                descending: true
             }
         }
     },
@@ -124,8 +119,8 @@ export default {
         load() {
             this.$data.loading = true
             this.$data.pagination.offset =
-                (this.$data.pagination.pageIndex - 1) *
-                this.$data.pagination.rowsPerPage
+                (this.$data.pagination.page - 1) *
+                this.$data.pagination.rowsPerPage + 1
 
             clearTimeout(this.$data.loadTimeout)
             this.$data.loadTimeout = setTimeout(() => {
