@@ -12,7 +12,7 @@
         :pagination.sync="pagination"
         :total-items="total"
         :headers="localList.fields" 
-        :items="desserts" :loading="loading" select-all v-model="selected" item-key="id" class="elevation-1">
+        :items="dataList" :loading="loading" select-all v-model="selected" item-key="id" class="elevation-1">
         <v-progress-linear slot="progress" height="2" indeterminate></v-progress-linear>
         <template slot="headerCell" slot-scope="props">
             <v-tooltip bottom>
@@ -62,6 +62,10 @@
 <script>
 export default {
   watch: {
+    "list.fields"() {
+      this.init();
+      this.load();
+    },
     "pagination.page"() {
       this.load();
     },
@@ -76,23 +80,7 @@ export default {
     }
   },
   created() {
-    this.$data.localList.fields = this.list.fields.map(field => ({
-      ...field,
-      value: field.source
-    }));
-
-    this.$data.datasource = this.dataSource();
-    this.$data.localList.filters = this.$data.localList.fields.filter(
-      field => !!field.filter
-    );
-
-    this.$data.localList.fields.push({
-      text: "Actions",
-      value: "action",
-      sortable: false
-    });
-
-    this.load();
+    this.init();
   },
   props: ["list", "dataSource", "reference"],
   data() {
@@ -103,7 +91,7 @@ export default {
         filters: [],
         fields: []
       },
-      desserts: [],
+      dataList: [],
       selected: [],
       datasource: null,
       total: 10,
@@ -117,14 +105,38 @@ export default {
     };
   },
   methods: {
-    load() {
-      this.$data.loading = true;
+    init() {
+      this.$data.dataList = [];
+
+      this.$data.localList.fields = this.list.fields.map(field => ({
+        ...field,
+        value: field.source
+      }));
+
+      this.$data.datasource = this.dataSource();
+      this.$data.localList.filters = this.$data.localList.fields.filter(
+        field => !!field.filter
+      );
+
+      this.$data.localList.fields.push({
+        text: "Actions",
+        value: "action",
+        sortable: false
+      });
+
+      this.load();
+    },
+
+    load() {      
       this.$data.pagination.offset =
         (this.$data.pagination.page - 1) * this.$data.pagination.rowsPerPage +
         1;
 
       clearTimeout(this.$data.loadTimeout);
       this.$data.loadTimeout = setTimeout(() => {
+
+        this.$data.loading = true;
+
         this.datasource.GET_LIST(
           this.reference,
           {
@@ -137,10 +149,10 @@ export default {
               }, {})
           },
           response => {
-            this.$data.desserts = response.data;
+            this.$data.dataList = response.data;
             this.$data.total = response.total / this.pagination.rowsPerPage;
             this.$data.loading = false;
-            if (this.$data.desserts.length === 0) {
+            if (this.$data.dataList.length === 0) {
               this.$data.nodata = true;
             }
           }

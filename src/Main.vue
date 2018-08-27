@@ -6,117 +6,161 @@
 import Admin from "./vuetimin/Admin";
 
 export default {
-    data() {
-        return {
-            resources: [{
-                    reference: "hahahaj",
-                    list: {
-                        fields: [{
-                                text: "(100g serving)",
-                                align: "left",
-                                sortable: true,
-                                source: "name"
-                            },
-                            {
-                                text: "NNN",
-                                source: "nnn",
-                                filter: true
-                            },
-                            {
-                                text: "Calories",
-                                source: "calories"
-                            },
-                            {
-                                text: "Fat (g)",
-                                source: "fat",
-                                filter: true
-                            },
-                            {
-                                text: "Carbs (g)",
-                                source: "carbs"
-                            },
-                            {
-                                text: "Protein (g)",
-                                source: "protein",
-                                filter: true
-                            },
-                            {
-                                text: "Iron (%)",
-                                source: "iron"
-                            }
-                        ]
-                    }
-                }
+  data() {
+    return {    
+      resources: [
+        {
+          reference: "totvs",
+          list: {
+            fields: [
+              {
+                text: "name",
+                sortable: true,
+                source: "name",
+                filter: true
+              }
             ]
-        };
-    },
-
-    methods: {
-        dataSource() {
-            const endpoint = "http://localhost:3000/api";
-            return {
-                GET_LIST(reference, args, cb) {
-                    console.log(`GET_LIST ${endpoint}/${reference}?${JSON.stringify(args)}`);
-                    console.log(args);
-
-                    return setTimeout(() => {
-                        cb({
-                            total: 2000,
-                            data: Array.apply(null, {
-                                length: args.rowsPerPage
-                            }).map(_ => ({
-                                id: Math.round(Math.random() * 200000),
-                                value: false,
-                                name: "Frozen Yogurt",
-                                calories: Math.round(Math.random() * 200),
-                                nnn: "teste",
-                                fat: Math.round(Math.random() * 10),
-                                carbs: Math.round(Math.random() * 50),
-                                protein: Math.round(Math.random() * 5),
-                                iron: "1%"
-                            }))
-                        });
-                    }, 1000 * 1);
-                },
-                GET_ONE(reference, args) {
-                    console.log(`GET_ONE ${endpoint}/${reference}`);
-                },
-                CREATE(reference, args) {
-                    console.log(`CREATE ${endpoint}/${reference}`);
-                },
-                UPDATE(reference, args) {
-                    console.log(`UPDATE ${endpoint}/${reference}`);
-                },
-                DELETE(reference, args) {
-                    console.log(`DELETE ${endpoint}/${reference}`);
-                }
-            };
+          },
+          show: {
+            expand: true,
+            fields: [
+              {
+                text: "name",
+                source: "name"
+              }
+            ]
+          },
+          edit: {
+            fields: [
+              {
+                text: "name",
+                source: "name"
+              }
+            ]
+          },
+          new: {
+            fields: [
+              {
+                text: "name",
+                source: "name"
+              }
+            ]
+          }
         },
-        auth({
-            username,
-            password
-        }) {
-            if (localStorage.getItem("token") == "true") {
-                return true;
-            }
-
-            if (username === "will" && password === "123") {
-                localStorage.setItem("token", "true");
-
-                return true;
-            }
-
-            return false;
+        {
+          reference: "hahahaj",
+          list: {
+            fields: [
+              {
+                text: "(100g serving)",
+                sortable: true,
+                source: "name"
+              },
+              {
+                text: "NNN",
+                source: "nnn",
+                filter: true
+              },
+              {
+                text: "Calories",
+                source: "calories"
+              },
+              {
+                text: "Fat (g)",
+                source: "fat",
+                filter: true
+              },
+              {
+                text: "Carbs (g)",
+                source: "carbs"
+              },
+              {
+                text: "Protein (g)",
+                source: "protein",
+                filter: true
+              },
+              {
+                text: "Iron (%)",
+                source: "iron"
+              },
+              {
+                text: "Exists",
+                source: "exists",
+                filter: true
+              }
+            ]
+          }
         }
-    },
+      ]
+    };
+  },
 
-    computed: {
-        Homee() {
-            return this.Home;
+  methods: {
+    dataSource() {
+      const endpoint = "http://localhost:3000/api";
+      return {
+        GET_LIST(reference, args, cb) {
+          console.log(
+            `GET_LIST ${endpoint}/${reference}?${JSON.stringify(args)}`
+          );
+          console.log(args);
+
+          return setTimeout(() => {
+            cb({
+              total: 2000,
+              data: Array.apply(null, {
+                length: args.rowsPerPage
+              }).map(_ => ({
+                id: Math.round(Math.random() * 200000),
+                value: false,
+                name: "Frozen Yogurt",
+                calories: Math.round(Math.random() * 200),
+                nnn: "teste",
+                fat: Math.round(Math.random() * 10),
+                carbs: Math.round(Math.random() * 50),
+                protein: Math.round(Math.random() * 5),
+                iron: "1%",
+                exists: false
+              }))
+            });
+          }, 1000 * 1);
+        },
+        GET_ONE(reference, args) {
+          console.log(`GET_ONE ${endpoint}/${reference}`);
+        },
+        CREATE(reference, args) {
+          console.log(`CREATE ${endpoint}/${reference}`);
+        },
+        UPDATE(reference, args) {
+          console.log(`UPDATE ${endpoint}/${reference}`);
+        },
+        DELETE(reference, args) {
+          console.log(`DELETE ${endpoint}/${reference}`);
         }
+      };
     },
-    components: {
-        Admin
+    auth({ username, password }) {
+      if (localStorage.getItem("token") == "true") {
+        return true;
+      }
+
+      if (username === "will" && password === "123") {
+        localStorage.setItem("token", "true");
+
+        return true;
+      }
+
+      return false;
     }
+  },
+
+  computed: {
+    Homee() {
+      return this.Home;
+    }
+  },
+  components: {
+    Admin
+  }
 };
 </script>
