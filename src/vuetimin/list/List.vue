@@ -13,7 +13,7 @@
         :total-items="total"
         :headers="localList.fields" 
         :items="desserts" :loading="loading" select-all v-model="selected" item-key="id" class="elevation-1">
-        <v-progress-linear slot="progress" height="1" indeterminate></v-progress-linear>
+        <v-progress-linear slot="progress" height="2" indeterminate></v-progress-linear>
         <template slot="headerCell" slot-scope="props">
             <v-tooltip bottom>
                 <span slot="activator">{{ props.header.text }}</span>
@@ -41,10 +41,11 @@
      <template slot="pageText" slot-scope="props">
       Lignes {{ props.pageStart }} - {{ props.pageStop }} de {{ props.itemsLength }}
     </template>
+    
+    <div  class="text-xs-center" slot="no-results" >
 
-        <v-alert slot="no-results" :value="true" color="secondary">
-            Loading ....
-        </v-alert>
+    <v-progress-circular  indeterminate color="primary" ></v-progress-circular>       
+    </div>
 
         <template slot="no-data">
             <v-alert :value="nodata" color="error" icon="warning">
@@ -60,92 +61,92 @@
 
 <script>
 export default {
-    watch: {
-        "pagination.page" () {
-            this.load()
-        },
-        "pagination.rowsPerPage" () {
-            this.load()
-        },
-        "pagination.sortBy" () {
-            this.load()
-        },
-        "pagination.descending" () {
-            this.load()
-        }
+  watch: {
+    "pagination.page"() {
+      this.load();
     },
-    created() {
-        this.$data.localList.fields = this.list.fields.map(field => ({
-            ...field,
-            value: field.source
-        }))
-
-        this.$data.datasource = this.dataSource()
-        this.$data.localList.filters = this.$data.localList.fields.filter(
-            field => !!field.filter
-        )
-
-        this.$data.localList.fields.push({
-            text: "Actions",
-            value: "action",
-            sortable: false
-        })
-
-        this.load()
+    "pagination.rowsPerPage"() {
+      this.load();
     },
-    props: ["list", "dataSource", "reference"],
-    data() {
-        return {
-            nodata: false,
-            loading: true,
-            localList: {
-                filters: [],
-                fields: []
-            },
-            desserts: [],
-            selected: [],
-            datasource: null,
-            total: 10,
-            loadTimeout: null,
-            pagination: {
-                offset: 0,
-                rowsPerPage: 10,
-                sortBy: "",
-                descending: true
-            }
-        }
+    "pagination.sortBy"() {
+      this.load();
     },
-    methods: {
-        load() {
-            this.$data.loading = true
-            this.$data.pagination.offset =
-                (this.$data.pagination.page - 1) *
-                this.$data.pagination.rowsPerPage + 1
-
-            clearTimeout(this.$data.loadTimeout)
-            this.$data.loadTimeout = setTimeout(() => {
-
-                this.datasource.GET_LIST(
-                    this.reference, {
-                        ...this.$data.pagination,
-                        filters: this.$data.localList.filters
-                            .filter(item => !!item.search)
-                            .reduce((acc, item) => {
-                                acc[item.source] = item.search
-                                return acc
-                            }, {})
-                    },
-                    response => {
-                        this.$data.desserts = response.data
-                        this.$data.total = response.total / this.pagination.rowsPerPage
-                        this.$data.loading = false
-                        if (this.$data.desserts.length === 0) {
-                            this.$data.nodata = true
-                        }
-                    }
-                )
-            }, 200)
-        }
+    "pagination.descending"() {
+      this.load();
     }
-}
+  },
+  created() {
+    this.$data.localList.fields = this.list.fields.map(field => ({
+      ...field,
+      value: field.source
+    }));
+
+    this.$data.datasource = this.dataSource();
+    this.$data.localList.filters = this.$data.localList.fields.filter(
+      field => !!field.filter
+    );
+
+    this.$data.localList.fields.push({
+      text: "Actions",
+      value: "action",
+      sortable: false
+    });
+
+    this.load();
+  },
+  props: ["list", "dataSource", "reference"],
+  data() {
+    return {
+      nodata: false,
+      loading: true,
+      localList: {
+        filters: [],
+        fields: []
+      },
+      desserts: [],
+      selected: [],
+      datasource: null,
+      total: 10,
+      loadTimeout: null,
+      pagination: {
+        offset: 0,
+        rowsPerPage: 10,
+        sortBy: "",
+        descending: true
+      }
+    };
+  },
+  methods: {
+    load() {
+      this.$data.loading = true;
+      this.$data.pagination.offset =
+        (this.$data.pagination.page - 1) * this.$data.pagination.rowsPerPage +
+        1;
+
+      clearTimeout(this.$data.loadTimeout);
+      this.$data.loadTimeout = setTimeout(() => {
+        this.datasource.GET_LIST(
+          this.reference,
+          {
+            ...this.$data.pagination,
+            filters: this.$data.localList.filters
+              .filter(item => !!item.search)
+              .reduce((acc, item) => {
+                acc[item.source] = item.search;
+                return acc;
+              }, {})
+          },
+          response => {
+            this.$data.desserts = response.data;
+            this.$data.total = response.total / this.pagination.rowsPerPage;
+            this.$data.loading = false;
+            if (this.$data.desserts.length === 0) {
+              this.$data.nodata = true;
+            }
+          }
+        );
+      }, 200);
+    }
+  }
+};
 </script>
