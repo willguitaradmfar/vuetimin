@@ -1,22 +1,100 @@
 <template>
-<Admin :auth="auth" :dataSource="dataSource" :resources="resources" />
+<Admin :auth="auth" :dataSource="api" :resources="resources" />
 </template>
 
 <script>
-import Admin from "./vuetimin/Admin";
+import Admin from "./vuetimin/Admin"
+
+import Testeresource from "./vuetimin-datasource"
 
 export default {
   data() {
     return {    
-      resources: [
-        {
-          reference: "totvs",
+      resources: [{
+          reference: "user",
           list: {
             fields: [
               {
-                text: "name",
+                text: "id",
                 sortable: true,
-                source: "name",
+                source: "id",
+                filter: true
+              },{
+                text: "firstName",
+                sortable: true,
+                source: "firstName",
+                filter: true
+              },
+              {
+                text: "email",
+                sortable: true,
+                source: "email",
+                filter: true
+              },
+              {
+                text: "createdAt",
+                sortable: true,
+                source: "createdAt",
+                filter: true
+              }
+            ]
+          }
+      },
+        {
+          reference: "order",
+          list: {
+            fields: [
+              {
+                text: "id",
+                sortable: true,
+                source: "id",
+                filter: true
+              },{
+                text: "order_number",
+                sortable: true,
+                source: "order_number",
+                filter: true
+              },
+              {
+                text: "status",
+                sortable: true,
+                source: "status",
+                filter: true
+              },
+              {
+                text: "createdAt",
+                sortable: true,
+                source: "createdAt",
+                filter: true
+              }
+            ]
+          }
+        },
+        {
+          reference: "alert",
+          list: {
+            fields: [
+              {
+                text: "id",
+                sortable: true,
+                source: "id",
+                filter: true
+              },{
+                text: "queue",
+                sortable: true,
+                source: "queue",
+                filter: true
+              },
+              {
+                text: "Level",
+                sortable: true,
+                source: "level",
+                filter: true
+              },
+              {
+                text: "createdAt",
+                sortable: true,
+                source: "createdAt",
                 filter: true
               }
             ]
@@ -25,8 +103,8 @@ export default {
             expand: true,
             fields: [
               {
-                text: "name",
-                source: "name"
+                text: "Message",
+                source: "message"
               }
             ]
           },
@@ -92,75 +170,37 @@ export default {
           }
         }
       ]
-    };
+    }
   },
 
   methods: {
-    dataSource() {
-      const endpoint = "http://localhost:3000/api";
-      return {
-        GET_LIST(reference, args, cb) {
-          console.log(
-            `GET_LIST ${endpoint}/${reference}?${JSON.stringify(args)}`
-          );
-          console.log(args);
-
-          return setTimeout(() => {
-            cb({
-              total: 2000,
-              data: Array.apply(null, {
-                length: args.rowsPerPage
-              }).map(_ => ({
-                id: Math.round(Math.random() * 200000),
-                value: false,
-                name: "Frozen Yogurt",
-                calories: Math.round(Math.random() * 200),
-                nnn: "teste",
-                fat: Math.round(Math.random() * 10),
-                carbs: Math.round(Math.random() * 50),
-                protein: Math.round(Math.random() * 5),
-                iron: "1%",
-                exists: false
-              }))
-            });
-          }, 1000 * 1);
-        },
-        GET_ONE(reference, args) {
-          console.log(`GET_ONE ${endpoint}/${reference}`);
-        },
-        CREATE(reference, args) {
-          console.log(`CREATE ${endpoint}/${reference}`);
-        },
-        UPDATE(reference, args) {
-          console.log(`UPDATE ${endpoint}/${reference}`);
-        },
-        DELETE(reference, args) {
-          console.log(`DELETE ${endpoint}/${reference}`);
-        }
-      };
+    api(){
+      return Testeresource.api()      
     },
+    
     auth({ username, password }) {
       if (localStorage.getItem("token") == "true") {
-        return true;
+        return true
       }
 
       if (username === "will" && password === "123") {
-        localStorage.setItem("token", "true");
+        localStorage.setItem("token", "true")
 
-        return true;
+        return true
       }
 
-      return false;
+      return false
     }
   },
 
   computed: {
+    
     Homee() {
-      return this.Home;
+      return this.Home
     }
   },
   components: {
     Admin
   }
-};
+}
 </script>
