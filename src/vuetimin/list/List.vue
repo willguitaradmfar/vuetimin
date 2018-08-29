@@ -8,44 +8,45 @@
         <v-text-field v-for="item in localList.filters" v-bind:key="item.source" v-on:keyup="filter" v-model="item.search" append-icon="search" :label="item.text" single-line hide-details></v-text-field>
 
     </v-card-title>
-    <v-data-table :pagination.sync="pagination" :total-items="total" :headers="localList.fields" :items="dataList" :loading="loading" select-all v-model="selected" item-key="id" class="elevation-1">
-        <v-progress-linear slot="progress" height="2" indeterminate></v-progress-linear>
-        <template slot="headerCell" slot-scope="props">
-            <v-tooltip bottom>
-                <span slot="activator">{{ props.header.text }}</span>
-                <span>{{ props.header.text }}</span>
-            </v-tooltip>
-        </template>
+    <v-card-text>
+        <v-data-table :pagination.sync="pagination" :total-items="total" :headers="localList.fields" :items="dataList" :loading="loading" select-all v-model="selected" item-key="id" class="elevation-1">
+            <v-progress-linear slot="progress" height="2" indeterminate></v-progress-linear>
+            <template slot="headerCell" slot-scope="props">
+                <v-tooltip bottom>
+                    <span slot="activator">{{ props.header.text }}</span>
+                    <span>{{ props.header.text }}</span>
+                </v-tooltip>
+            </template>
 
-        <template slot="items" slot-scope="props">
-            <td>
-                <v-checkbox v-model="props.selected" primary hide-details></v-checkbox>
-            </td>
+            <template slot="items" slot-scope="props">
+                <td>
+                    <v-checkbox v-model="props.selected" primary hide-details></v-checkbox>
+                </td>
 
-            <td v-for="item in localList.fields" v-bind:key="item.source" v-if="item.value !== 'action'">{{ props.item[item.source] }}</td>
+                <td v-for="item in localList.fields" v-bind:key="item.source" v-if="item.value !== 'action'">{{ props.item[item.source] }}</td>
 
-            <td>
-                <v-icon class="mr-2">edit</v-icon>
-                <v-icon>delete</v-icon>
-            </td>
-        </template>
+                <td>
+                    <v-icon class="mr-2">edit</v-icon>
+                    <v-icon>delete</v-icon>
+                </td>
+            </template>
 
-        <template slot="pageText" slot-scope="props">
-            Linhas {{ props.pageStart }} - {{ props.pageStop }} de {{ total }}.  Página: {{pagination.page}}
-        </template>
+            <template slot="pageText" slot-scope="props">
+                Linhas {{ props.pageStart }} - {{ props.pageStop }} de {{ total }}. Página: {{pagination.page}}
+            </template>
 
-        <div class="text-xs-center" slot="no-results">
+            <div class="text-xs-center" slot="no-results">
 
-            <v-progress-circular indeterminate color="primary"></v-progress-circular>
-        </div>
+                <v-progress-circular indeterminate color="primary"></v-progress-circular>
+            </div>
 
-        <template slot="no-data">
-            <v-alert :value="nodata" color="error" icon="warning">
-                Sorry, nothing to display here :(
-            </v-alert>
-        </template>
-    </v-data-table>
-
+            <template slot="no-data">
+                <v-alert :value="nodata" color="error" icon="warning">
+                    Sorry, nothing to display here :(
+                </v-alert>
+            </template>
+        </v-data-table>
+    </v-card-text>
 </v-card>
 </template>
 
@@ -101,7 +102,8 @@ export default {
             this.$data.dataList = []
 
             this.$data.localList.fields = this.list.fields.map(field => ({
-                ...field, value: field.source
+                ...field,
+                value: field.source
             }))
 
             this.$data.datasource = this.dataSource()
@@ -115,9 +117,9 @@ export default {
             this.load()
         },
 
-        filter(){
-          this.pagination.page = 1
-          this.load()
+        filter() {
+            this.pagination.page = 1
+            this.load()
         },
 
         load() {

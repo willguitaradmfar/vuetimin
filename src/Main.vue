@@ -1,206 +1,97 @@
 <template>
-<Admin :auth="auth" :dataSource="api" :resources="resources" />
+<Admin :auth="auth" :dataSource="dataSource" :resources="resources" />
 </template>
-
 <script>
-import Admin from "./vuetimin/Admin"
+import Admin from "./vuetimin/Admin";
 
-import Testeresource from "./vuetimin-datasource"
+import Testeresource from "./vuetimin-datasource";
 
 export default {
   data() {
-    return {    
-      resources: [{
-          reference: "user",
-          list: {
+    return {
+      resources: [
+        {
+          reference: "customer",
+          show: {
             fields: [
               {
-                text: "id",
+                text: "First Name",
                 sortable: true,
-                source: "id",
-                filter: true
-              },{
-                text: "firstName",
-                sortable: true,
-                source: "firstName",
-                filter: true
+                source: "firstName"
               },
               {
                 text: "email",
                 sortable: true,
-                source: "email",
-                filter: true
+                source: "email"
               },
               {
-                text: "createdAt",
+                text: "IP",
                 sortable: true,
-                source: "createdAt",
-                filter: true
-              }
-            ]
-          }
-      },
-        {
-          reference: "order",
-          list: {
-            fields: [
-              {
-                text: "id",
-                sortable: true,
-                source: "id",
-                filter: true
-              },{
-                text: "order_number",
-                sortable: true,
-                source: "order_number",
-                filter: true
+                source: "ip"
               },
               {
-                text: "status",
+                text: "price",
                 sortable: true,
-                source: "status",
-                filter: true
-              },
-              {
-                text: "createdAt",
-                sortable: true,
-                source: "createdAt",
-                filter: true
-              }
-            ]
-          }
-        },
-        {
-          reference: "alert",
-          list: {
-            fields: [
-              {
-                text: "id",
-                sortable: true,
-                source: "id",
-                filter: true
-              },{
-                text: "queue",
-                sortable: true,
-                source: "queue",
-                filter: true
-              },
-              {
-                text: "Level",
-                sortable: true,
-                source: "level",
-                filter: true
-              },
-              {
-                text: "createdAt",
-                sortable: true,
-                source: "createdAt",
-                filter: true
+                source: "price"
               }
             ]
           },
-          show: {
-            expand: true,
-            fields: [
-              {
-                text: "Message",
-                source: "message"
-              }
-            ]
-          },
-          edit: {
-            fields: [
-              {
-                text: "name",
-                source: "name"
-              }
-            ]
-          },
-          new: {
-            fields: [
-              {
-                text: "name",
-                source: "name"
-              }
-            ]
-          }
-        },
-        {
-          reference: "hahahaj",
           list: {
             fields: [
               {
-                text: "(100g serving)",
+                text: "First Name",
                 sortable: true,
-                source: "name"
+                source: "firstName"
               },
               {
-                text: "NNN",
-                source: "nnn",
-                filter: true
+                text: "email",
+                sortable: true,
+                source: "email"
               },
               {
-                text: "Calories",
-                source: "calories"
+                text: "IP",
+                sortable: true,
+                source: "ip"
               },
               {
-                text: "Fat (g)",
-                source: "fat",
-                filter: true
-              },
-              {
-                text: "Carbs (g)",
-                source: "carbs"
-              },
-              {
-                text: "Protein (g)",
-                source: "protein",
-                filter: true
-              },
-              {
-                text: "Iron (%)",
-                source: "iron"
-              },
-              {
-                text: "Exists",
-                source: "exists",
-                filter: true
+                text: "price",
+                sortable: true,
+                source: "price"
               }
             ]
           }
         }
       ]
-    }
+    };
   },
 
   methods: {
-    api(){
-      return Testeresource.api()      
+    dataSource() {
+      return Testeresource.mock();
     },
-    
+
     auth({ username, password }) {
       if (localStorage.getItem("token") == "true") {
-        return true
+        return true;
       }
 
       if (username === "will" && password === "123") {
-        localStorage.setItem("token", "true")
+        localStorage.setItem("token", "true");
 
-        return true
+        return true;
       }
 
-      return false
+      return false;
     }
   },
 
   computed: {
-    
     Homee() {
-      return this.Home
+      return this.Home;
     }
   },
   components: {
     Admin
   }
-}
+};
 </script>

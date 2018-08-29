@@ -119,6 +119,8 @@
 <script>
 import List from "./list/List";
 
+import Show from "./list/Show";
+
 import About from "../views/About.vue";
 
 export default {
@@ -127,12 +129,31 @@ export default {
     const routes = [];
 
     for (let resource of this.$attrs.resources) {
-      routes.push({
-        path: `/${resource.reference}`,
-        name: resource.reference,
-        component: List,
-        props: { list: resource.list, dataSource: this.$attrs.dataSource, reference: resource.reference }
-      });
+      if (resource.list) {
+        routes.push({
+          path: `/${resource.reference}`,
+          name: resource.reference,
+          component: List,
+          props: {
+            list: resource.list,
+            dataSource: this.$attrs.dataSource,
+            reference: resource.reference
+          }
+        });
+      }
+
+      if (resource.show) {
+        routes.push({
+          path: `/${resource.reference}/:id/show`,
+          name: resource.reference,
+          component: Show,
+          props: {
+            show: resource.show,
+            dataSource: this.$attrs.dataSource,
+            reference: resource.reference
+          }
+        });
+      }
     }
 
     this.$router.addRoutes(routes);
