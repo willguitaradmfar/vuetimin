@@ -28,6 +28,9 @@
                 <td>
                     <v-icon class="mr-2">edit</v-icon>
                     <v-icon>delete</v-icon>
+                    <router-link :to="'/' + reference + '/' + props.item.id + '/show'" tag="a">
+                        <v-icon>visibility</v-icon>
+                    </router-link>
                 </td>
             </template>
 
