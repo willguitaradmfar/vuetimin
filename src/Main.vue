@@ -12,26 +12,38 @@ export default {
       resources: [
         {
           reference: "customer",
-          show: {
+          edit: {
             fields: [
               {
                 text: "First Name",
-                sortable: true,
                 source: "firstName"
               },
               {
                 text: "email",
-                sortable: true,
+                source: "email"
+              },
+              {
+                text: "Mac",
+                source: "mac"
+              }
+            ]
+          },
+          show: {
+            fields: [
+              {
+                text: "First Name",
+                source: "firstName"
+              },
+              {
+                text: "email",
                 source: "email"
               },
               {
                 text: "IP",
-                sortable: true,
                 source: "ip"
               },
               {
                 text: "price",
-                sortable: true,
                 source: "price"
               }
             ]
@@ -47,6 +59,11 @@ export default {
                 text: "email",
                 sortable: true,
                 source: "email"
+              },
+              {
+                text: "Mac",
+                sortable: true,
+                source: "mac"
               },
               {
                 text: "IP",

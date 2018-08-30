@@ -26,9 +26,10 @@
                 <td v-for="item in localList.fields" v-bind:key="item.source" v-if="item.value !== 'action'">{{ props.item[item.source] }}</td>
 
                 <td>
-                    <v-icon class="mr-2">edit</v-icon>
-                    <v-icon>delete</v-icon>
-                    <router-link :to="'/' + reference + '/' + props.item.id + '/show'" tag="a">
+                    <router-link :to="'/' + reference + '/' + props.item.id + '/edit'" tag="button">
+                        <v-icon>edit</v-icon>
+                    </router-link>
+                    <router-link :to="'/' + reference + '/' + props.item.id + '/show'" tag="button">
                         <v-icon>visibility</v-icon>
                     </router-link>
                 </td>
@@ -39,7 +40,6 @@
             </template>
 
             <div class="text-xs-center" slot="no-results">
-
                 <v-progress-circular indeterminate color="primary"></v-progress-circular>
             </div>
 

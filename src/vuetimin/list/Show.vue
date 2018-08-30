@@ -1,18 +1,32 @@
 <template>
 <v-card>
-    <v-card-title>
-        {{ reference }}
-    </v-card-title>
+    <v-toolbar card>
+        <v-toolbar-title>{{reference}}</v-toolbar-title>
+
+        <v-spacer></v-spacer>
+        <v-btn :color="isEditing ? 'red' : 'warning'" v-if="!isEditing" :to="'/' + reference + '/' + id + '/edit'" fab small @click="isEditing = !isEditing">
+            <v-icon>create</v-icon>
+        </v-btn>
+        <v-btn :color="isEditing ? 'red' : 'warning'" v-if="isEditing" :to="'/' + reference + '/' + id + '/show'" fab small @click="isEditing = !isEditing">
+            <v-icon>close</v-icon>
+        </v-btn>
+        <v-btn color=" darken-3" fab small :to="'/' + reference">
+            <v-icon>reply</v-icon>
+        </v-btn>
+    </v-toolbar>
     <v-card-text>
-        <v-form ref="form" v-model="valid" lazy-validation>
-            <v-text-field v-for="item in localList.fields" v-bind:key="item.source" v-model="name" :rules="nameRules" :counter="10" :label="item.text" required></v-text-field>
-            
-            <v-btn :disabled="!valid" @click="submit">
-                submit
-            </v-btn>
-            <v-btn @click="clear">clear</v-btn>
-        </v-form>
+        <v-progress-linear v-if="loading" height="2" indeterminate></v-progress-linear>
+        <v-container>
+            <v-text-field :disabled="!isEditing" v-for="item in localList.fields" v-bind:key="item.source" v-model="data[item.source]" :counter="10" :label="item.text" required></v-text-field>
+        </v-container>
     </v-card-text>
+    <v-divider></v-divider>
+    <v-card-actions>
+        <v-spacer></v-spacer>
+        <v-btn :disabled="!isEditing" color="success" @click="save">
+            Save
+        </v-btn>
+    </v-card-actions>
 </v-card>
 </template>
 
@@ -21,54 +35,70 @@
 import axios from "axios";
 
 export default {
-    props: ["show", "dataSource", "reference"],
+    props: ["show", "edit", "dataSource", "reference"],
+    watch: {
+        "isEditing" () {
+            this.load()
+        }
+    },
     data: () => ({
-        valid: true,
-        name: "",
-        nameRules: [
-            v => !!v || "Name is required",
-            v => (v && v.length <= 10) || "Name must be less than 10 characters"
-        ],
-        email: "",
-        emailRules: [
-            v => !!v || "E-mail is required",
-            v => /.+@.+/.test(v) || "E-mail must be valid"
-        ],
-        select: null,
-        items: ["Item 1", "Item 2", "Item 3", "Item 4"],
-        checkbox: false,
-        dataList: [],
+        id: 0,
+        mode: 'show',
+        data: {},
+        loading: true,
+        isEditing: false,
+        datasource: null,
         localList: {
             fields: []
         }
     }),
     created() {
-        this.init()
+        this.load()
     },
     methods: {
-        init() {
-            this.$data.dataList = []
 
-            this.$data.localList.fields = this.show.fields.map(field => ({
-                ...field,
-                value: field.source
-            }))
+        load() {
+            this.$data.id = this.$route.params.id
+            this.$data.mode = this.$route.params.mode
 
-            
-        },
-        submit() {
-            if (this.$refs.form.validate()) {
-                // Native form submission is not yet supported
-                axios.post("/api/submit", {
-                    name: this.name,
-                    email: this.email,
-                    select: this.select,
-                    checkbox: this.checkbox
-                });
+            if (this.mode === 'edit') {
+                this.$data.isEditing = true
             }
+
+            this.$data.datasource = this.dataSource()
+
+            if (this.mode === 'show') {
+                this.$data.localList.fields = this.show.fields.map(field => ({
+                    ...field,
+                    value: field.source
+                }))
+            }
+
+            if (this.mode === 'edit') {
+                this.$data.localList.fields = this.edit.fields.map(field => ({
+                    ...field,
+                    value: field.source
+                }))
+            }
+
+            if (Object.keys(this.$data.data).length) return
+
+            this.$data.loading = true
+
+            this.datasource.GET_ONE(
+                this.reference, {
+                    ...this.$route.params
+                },
+                response => {
+                    this.$data.data = response
+                    this.$data.loading = false
+                }
+            )
         },
-        clear() {
-            this.$refs.form.reset();
+        save() {
+            this.isEditing = !this.isEditing
+            this.$data.data = {}
+            this.$router.push(`/${this.reference}/${this.id}/show`)
         }
     }
 };
