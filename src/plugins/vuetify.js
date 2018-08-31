@@ -24,7 +24,9 @@ import {
   VSelect,
   VDivider,
   VSnackbar,
-  VDialog
+  VDialog,
+  VCombobox,
+  VChip
   
 } from 'vuetify'
 import 'vuetify/src/stylus/app.styl'
@@ -54,7 +56,9 @@ Vue.use(Vuetify, {
     VSelect,
     VDivider,
     VSnackbar,
-    VDialog
+    VDialog,
+    VCombobox,
+    VChip
     
   },
   theme: {

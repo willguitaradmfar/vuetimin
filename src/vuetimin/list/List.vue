@@ -1,6 +1,9 @@
 <template>
 <v-card>
     <v-toolbar card>
+        <v-btn color="info" fab small :to="'/' + reference" @click="hasFilter = !hasFilter">
+            <v-icon>filter_list</v-icon>
+        </v-btn>
         <v-toolbar-title>{{reference}}</v-toolbar-title>
         <v-spacer></v-spacer>
         <v-btn color="primary" :to="'/' + reference + '/new'" fab small>
@@ -10,7 +13,17 @@
             <v-icon>refresh</v-icon>
         </v-btn>
     </v-toolbar>
-    
+
+    <v-toolbar v-if="hasFilter" card>
+        <v-combobox v-model="chipsFilter" :items="itemsFilter" label="Filter" chips clearable prepend-icon="filter_list" solo multiple>
+            <template slot="selection" slot-scope="data">
+                <v-chip :selected="data.selected" close @input="remove(data.item)">
+                    <strong>{{ data.item }}</strong>
+                </v-chip>
+            </template>
+        </v-combobox>
+    </v-toolbar>
+
     <v-card-text>
         <v-data-table :pagination.sync="pagination" :total-items="total" :headers="localList.fields" :items="dataList" :loading="loading" select-all v-model="selected" item-key="id" class="elevation-1">
             <v-progress-linear slot="progress" height="2" indeterminate></v-progress-linear>
@@ -85,6 +98,9 @@ export default {
     data() {
         return {
             nodata: false,
+            hasFilter: false,
+            chipsFilter: [],
+            itemsFilter:['name++'],
             loading: true,
             localList: {
                 filters: [],
@@ -127,7 +143,6 @@ export default {
             this.pagination.page = 1
             this.load()
         },
-
         load() {
             this.$data.pagination.offset = ((this.$data.pagination.page - 1) * this.$data.pagination.rowsPerPage)
 
