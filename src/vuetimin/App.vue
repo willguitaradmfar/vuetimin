@@ -78,114 +78,148 @@ import List from "./list/List";
 
 import Show from "./list/Show";
 
+import Edit from "./list/Edit";
+
+import New from "./list/New";
+
 import About from "../views/About.vue";
 
 export default {
-    name: "App",
-    created() {
-        const routes = [];
+  name: "App",
+  created() {
+    const routes = [];
 
-        for (let resource of this.$attrs.resources) {
-            if (resource.list) {
-                routes.push({
-                    path: `/${resource.reference}`,
-                    name: resource.reference,
-                    component: List,
-                    props: {
-                        list: resource.list,
-                        dataSource: this.$attrs.dataSource,
-                        reference: resource.reference
-                    }
-                });
-            }
+    for (let resource of this.$attrs.resources) {
+      if (resource.list) {
+        routes.push({
+          path: `/${resource.reference}`,
+          name: resource.reference,
+          component: List,
+          props: {
+            list: resource.list,
+            dataSource: this.$attrs.dataSource,
+            reference: resource.reference
+          }
+        });
+      }
 
-            routes.push({
-                path: `/${resource.reference}/:id/:mode`,
-                name: resource.reference,
-                component: Show,
-                props: {
-                    show: resource.show,
-                    edit: resource.edit,
-                    dataSource: this.$attrs.dataSource,
-                    reference: resource.reference
-                }
-            });
+      if (resource.show) {
+        routes.push({
+          path: `/${resource.reference}/:id/show`,
+          name: resource.reference,
+          component: Show,
+          props: {
+            show: resource.show,
+            dataSource: this.$attrs.dataSource,
+            reference: resource.reference
+          }
+        });
+      }
 
-        }
+      if (resource.edit) {
+        routes.push({
+          path: `/${resource.reference}/:id/edit`,
+          name: resource.reference,
+          component: Edit,
+          props: {
+            edit: resource.edit,
+            dataSource: this.$attrs.dataSource,
+            reference: resource.reference
+          }
+        });
+      }
 
-        this.$router.addRoutes(routes);
-    },
-    data: () => ({
-        dialog: false,
-        drawer: null,
-        items: [{
-                icon: "contacts",
-                text: "Contacts"
-            },
-            {
-                icon: "history",
-                text: "Frequently contacted"
-            },
-            {
-                icon: "content_copy",
-                text: "Duplicates"
-            },
-            {
-                icon: "keyboard_arrow_up",
-                "icon-alt": "keyboard_arrow_down",
-                text: "Labels",
-                model: true,
-                children: [{
-                    icon: "add",
-                    text: "Create label"
-                }]
-            },
-            {
-                icon: "keyboard_arrow_up",
-                "icon-alt": "keyboard_arrow_down",
-                text: "More",
-                model: false,
-                children: [{
-                        text: "Import"
-                    },
-                    {
-                        text: "Export"
-                    },
-                    {
-                        text: "Print"
-                    },
-                    {
-                        text: "Undo changes"
-                    },
-                    {
-                        text: "Other contacts"
-                    }
-                ]
-            },
-            {
-                icon: "settings",
-                text: "Settings"
-            },
-            {
-                icon: "chat_bubble",
-                text: "Send feedback"
-            },
-            {
-                icon: "help",
-                text: "Help"
-            },
-            {
-                icon: "phonelink",
-                text: "App downloads"
-            },
-            {
-                icon: "keyboard",
-                text: "Go to the old version"
-            }
-        ]
-    }),
-    props: {
-        source: String
+      if (resource.new) {
+        routes.push({
+          path: `/${resource.reference}/new`,
+          name: resource.reference,
+          component: New,
+          props: {
+            new: resource.new,
+            dataSource: this.$attrs.dataSource,
+            reference: resource.reference
+          }
+        });
+      }
     }
+
+    this.$router.addRoutes(routes);
+  },
+  data: () => ({
+    dialog: false,
+    drawer: null,
+    items: [
+      {
+        icon: "contacts",
+        text: "Contacts"
+      },
+      {
+        icon: "history",
+        text: "Frequently contacted"
+      },
+      {
+        icon: "content_copy",
+        text: "Duplicates"
+      },
+      {
+        icon: "keyboard_arrow_up",
+        "icon-alt": "keyboard_arrow_down",
+        text: "Labels",
+        model: true,
+        children: [
+          {
+            icon: "add",
+            text: "Create label"
+          }
+        ]
+      },
+      {
+        icon: "keyboard_arrow_up",
+        "icon-alt": "keyboard_arrow_down",
+        text: "More",
+        model: false,
+        children: [
+          {
+            text: "Import"
+          },
+          {
+            text: "Export"
+          },
+          {
+            text: "Print"
+          },
+          {
+            text: "Undo changes"
+          },
+          {
+            text: "Other contacts"
+          }
+        ]
+      },
+      {
+        icon: "settings",
+        text: "Settings"
+      },
+      {
+        icon: "chat_bubble",
+        text: "Send feedback"
+      },
+      {
+        icon: "help",
+        text: "Help"
+      },
+      {
+        icon: "phonelink",
+        text: "App downloads"
+      },
+      {
+        icon: "keyboard",
+        text: "Go to the old version"
+      }
+    ]
+  }),
+  props: {
+    source: String
+  }
 };
 </script>

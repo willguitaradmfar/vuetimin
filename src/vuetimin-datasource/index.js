@@ -113,20 +113,107 @@ const mock = () => {
                 })
             }, 1000 * 1)
         },
-        CREATE(reference, args) {
+        CREATE(reference, args, cb) {
             console.log(
                 `CREATE /${reference}?${JSON.stringify(args)}`
             )
+
+            return setTimeout(() => {
+                cb({
+                    id: Math.round(Math.random() * 200000),
+                    city: faker.fake("{{address.city}}"),
+                    zipCode: faker.fake("{{address.zipCode}}"),
+                    country: faker.fake("{{address.country}}"),
+                    state: faker.fake("{{address.state}}"),
+                    streetName: faker.fake("{{address.streetName}}"),
+                    streetAddress: faker.fake("{{address.streetAddress}}"),
+                    latitude: faker.fake("{{address.latitude}}"),
+                    longitude: faker.fake("{{address.longitude}}"),
+                    color: faker.fake("{{commerce.color}}"),
+                    department: faker.fake("{{commerce.department}}"),
+                    productName: faker.fake("{{commerce.productName}}"),
+                    price: faker.fake("{{commerce.price}}"),
+                    product: faker.fake("{{commerce.product}}"),
+                    image: faker.fake("{{image.image}}"),
+                    avatar: faker.fake("{{image.avatar}}"),
+                    animals: faker.fake("{{image.animals}}"),
+                    email: faker.fake("{{internet.email}}"),
+                    ip: faker.fake("{{internet.ip}}"),
+                    domainName: faker.fake("{{internet.domainName}}"),
+                    mac: faker.fake("{{internet.mac}}"),
+                    firstName: faker.fake("{{name.firstName}}"),
+                    lastName: faker.fake("{{name.lastName}}"),
+                    phoneNumber: faker.fake("{{phone.phoneNumber}}")
+                })
+            }, 1000 * 1)
         },
-        UPDATE(reference, args) {
+        UPDATE(reference, args, cb) {
             console.log(
                 `UPDATE /${reference}?${JSON.stringify(args)}`
             )
+
+            return setTimeout(() => {
+                cb({
+                    id: Math.round(Math.random() * 200000),
+                    city: faker.fake("{{address.city}}"),
+                    zipCode: faker.fake("{{address.zipCode}}"),
+                    country: faker.fake("{{address.country}}"),
+                    state: faker.fake("{{address.state}}"),
+                    streetName: faker.fake("{{address.streetName}}"),
+                    streetAddress: faker.fake("{{address.streetAddress}}"),
+                    latitude: faker.fake("{{address.latitude}}"),
+                    longitude: faker.fake("{{address.longitude}}"),
+                    color: faker.fake("{{commerce.color}}"),
+                    department: faker.fake("{{commerce.department}}"),
+                    productName: faker.fake("{{commerce.productName}}"),
+                    price: faker.fake("{{commerce.price}}"),
+                    product: faker.fake("{{commerce.product}}"),
+                    image: faker.fake("{{image.image}}"),
+                    avatar: faker.fake("{{image.avatar}}"),
+                    animals: faker.fake("{{image.animals}}"),
+                    email: faker.fake("{{internet.email}}"),
+                    ip: faker.fake("{{internet.ip}}"),
+                    domainName: faker.fake("{{internet.domainName}}"),
+                    mac: faker.fake("{{internet.mac}}"),
+                    firstName: faker.fake("{{name.firstName}}"),
+                    lastName: faker.fake("{{name.lastName}}"),
+                    phoneNumber: faker.fake("{{phone.phoneNumber}}")
+                })
+            }, 1000 * 1)
         },
-        DELETE(reference, args) {
+        DELETE(reference, args, cb) {
             console.log(
                 `DELETE /${reference}?${JSON.stringify(args)}`
             )
+
+            return setTimeout(() => {
+                cb({
+                    id: Math.round(Math.random() * 200000),
+                    city: faker.fake("{{address.city}}"),
+                    zipCode: faker.fake("{{address.zipCode}}"),
+                    country: faker.fake("{{address.country}}"),
+                    state: faker.fake("{{address.state}}"),
+                    streetName: faker.fake("{{address.streetName}}"),
+                    streetAddress: faker.fake("{{address.streetAddress}}"),
+                    latitude: faker.fake("{{address.latitude}}"),
+                    longitude: faker.fake("{{address.longitude}}"),
+                    color: faker.fake("{{commerce.color}}"),
+                    department: faker.fake("{{commerce.department}}"),
+                    productName: faker.fake("{{commerce.productName}}"),
+                    price: faker.fake("{{commerce.price}}"),
+                    product: faker.fake("{{commerce.product}}"),
+                    image: faker.fake("{{image.image}}"),
+                    avatar: faker.fake("{{image.avatar}}"),
+                    animals: faker.fake("{{image.animals}}"),
+                    email: faker.fake("{{internet.email}}"),
+                    ip: faker.fake("{{internet.ip}}"),
+                    domainName: faker.fake("{{internet.domainName}}"),
+                    mac: faker.fake("{{internet.mac}}"),
+                    firstName: faker.fake("{{name.firstName}}"),
+                    lastName: faker.fake("{{name.lastName}}"),
+                    phoneNumber: faker.fake("{{phone.phoneNumber}}")
+                })
+            }, 1000 * 1)
         }
     }
 }

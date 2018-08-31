@@ -12,6 +12,22 @@ export default {
       resources: [
         {
           reference: "customer",
+          new: {
+            fields: [
+              {
+                text: "First Name",
+                source: "firstName"
+              },
+              {
+                text: "email",
+                source: "email"
+              },
+              {
+                text: "Mac",
+                source: "mac"
+              }
+            ]
+          },
           edit: {
             fields: [
               {

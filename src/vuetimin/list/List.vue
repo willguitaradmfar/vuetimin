@@ -1,13 +1,16 @@
 <template>
 <v-card>
-    <v-card-title>
-        {{ reference }}
-    </v-card-title>
-    <v-card-title>
-        <v-spacer> </v-spacer>
-        <v-text-field v-for="item in localList.filters" v-bind:key="item.source" v-on:keyup="filter" v-model="item.search" append-icon="search" :label="item.text" single-line hide-details></v-text-field>
-
-    </v-card-title>
+    <v-toolbar card>
+        <v-toolbar-title>{{reference}}</v-toolbar-title>
+        <v-spacer></v-spacer>
+        <v-btn color="primary" :to="'/' + reference + '/new'" fab small>
+            <v-icon>add</v-icon>
+        </v-btn>
+        <v-btn :loading="loading" color="info" fab small @click="load">
+            <v-icon>refresh</v-icon>
+        </v-btn>
+    </v-toolbar>
+    
     <v-card-text>
         <v-data-table :pagination.sync="pagination" :total-items="total" :headers="localList.fields" :items="dataList" :loading="loading" select-all v-model="selected" item-key="id" class="elevation-1">
             <v-progress-linear slot="progress" height="2" indeterminate></v-progress-linear>

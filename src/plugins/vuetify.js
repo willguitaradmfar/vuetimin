@@ -23,7 +23,8 @@ import {
   VProgressCircular,
   VSelect,
   VDivider,
-  VSnackbar
+  VSnackbar,
+  VDialog
   
 } from 'vuetify'
 import 'vuetify/src/stylus/app.styl'
@@ -52,7 +53,8 @@ Vue.use(Vuetify, {
     VProgressCircular,
     VSelect,
     VDivider,
-    VSnackbar
+    VSnackbar,
+    VDialog
     
   },
   theme: {
