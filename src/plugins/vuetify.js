@@ -26,7 +26,9 @@ import {
   VSnackbar,
   VDialog,
   VCombobox,
-  VChip
+  VChip,
+  VDatePicker,
+  VMenu
   
 } from 'vuetify'
 import 'vuetify/src/stylus/app.styl'
@@ -58,7 +60,9 @@ Vue.use(Vuetify, {
     VSnackbar,
     VDialog,
     VCombobox,
-    VChip
+    VChip,
+    VDatePicker,
+    VMenu
     
   },
   theme: {

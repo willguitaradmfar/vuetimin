@@ -23,7 +23,7 @@
         <v-btn color="info" fab small :to="'/' + reference">
             <v-icon>reply</v-icon>
         </v-btn>
-        <v-toolbar-title>{{reference}}</v-toolbar-title>
+        <v-toolbar-title>{{reference}} #{{id}}</v-toolbar-title>
         <v-spacer></v-spacer>
 
         <v-btn :loading="loading" color="info" fab small @click="load">
@@ -49,6 +49,12 @@
             Save
         </v-btn>
     </v-card-actions>
+    <v-snackbar v-model="snackbar" color="error" :bottom="true" :multi-line="true" :timeout="7000">
+        {{ snackbarText }}
+        <v-btn color="white" flat @click="snackbar = false">
+            Close
+        </v-btn>
+    </v-snackbar>
 </v-card>
 </template>
 
@@ -60,6 +66,8 @@ export default {
     props: ["show", "dataSource", "reference"],
     watch: {},
     data: () => ({
+        snackbarText: '',
+        snackbar: false,
         id: 0,
         data: {},
         loading: true,
@@ -90,7 +98,13 @@ export default {
                 this.reference, {
                     ...this.$route.params
                 },
-                response => {
+                (err, response) => {
+                    if (err) {
+                        this.$data.snackbarText = err.message
+                        this.$data.loading = false
+                        this.$data.data = {}
+                        return this.$data.snackbar = true
+                    }
                     this.$data.data = response;
                     this.$data.loading = false;
                 }
@@ -103,7 +117,13 @@ export default {
                 this.reference, {
                     id: this.id
                 },
-                response => {
+                (err, response) => {
+                    if (err) {
+                        this.$data.snackbarText = err.message
+                        this.$data.loading = false
+                        this.$data.removing = false
+                        return this.$data.snackbar = true
+                    }
                     this.$data.removing = false
                     this.$router.push(`/${this.reference}`);
                 }

@@ -4,7 +4,7 @@
         <v-btn color="info" fab small :to="'/' + reference">
             <v-icon>reply</v-icon>
         </v-btn>
-        <v-toolbar-title>{{reference}}</v-toolbar-title>
+        <v-toolbar-title>{{reference}} #{{id}}</v-toolbar-title>
         <v-spacer></v-spacer>
         <v-btn color="white" :to="'/' + reference + '/' + id + '/show'" fab small>
             <v-icon>close</v-icon>
@@ -12,7 +12,7 @@
     </v-toolbar>
     <v-card-text>
         <v-container>
-            <v-text-field :disabled="loading" v-for="item in localList.fields" v-bind:key="item.source" v-model="data[item.source]" :counter="10" :label="item.text" required></v-text-field>
+            <v-text-field :disabled="loading || lock" v-for="item in localList.fields" v-bind:key="item.source" v-model="data[item.source]" :counter="10" :label="item.text" required></v-text-field>
         </v-container>
     </v-card-text>
     <v-divider></v-divider>
@@ -22,6 +22,12 @@
             Save
         </v-btn>
     </v-card-actions>
+    <v-snackbar v-model="snackbar" color="error" :bottom="true" :multi-line="true" :timeout="7000">
+        {{ snackbarText }}
+        <v-btn color="white" flat @click="snackbar = false">
+            Close
+        </v-btn>
+    </v-snackbar>
 </v-card>
 </template>
 
@@ -30,60 +36,73 @@
 import axios from "axios";
 
 export default {
-  props: ["edit", "dataSource", "reference"],
-  watch: {},
-  data: () => ({
-    id: 0,
-    data: {},
-    loading: true,
-    datasource: null,
-    localList: {
-      fields: []
-    }
-  }),
-  created() {
-    this.load();
-  },
-  methods: {
-    load() {
-      this.$data.id = this.$route.params.id;
-
-      this.$data.datasource = this.dataSource();
-
-      this.$data.localList.fields = this.edit.fields.map(field => ({
-        ...field,
-        value: field.source
-      }));
-
-      this.$data.loading = true;
-
-      this.datasource.GET_ONE(
-        this.reference,
-        {
-          ...this.$route.params
-        },
-        response => {
-          this.$data.data = response;
-          this.$data.loading = false;
+    props: ["edit", "dataSource", "reference"],
+    watch: {},
+    data: () => ({
+        snackbarText: '',
+        snackbar: false,
+        id: 0,
+        data: {},
+        loading: true,
+        datasource: null,
+        lock: false,
+        localList: {
+            fields: []
         }
-      );
+    }),
+    created() {
+        this.load();
     },
-    save() {
-      this.$data.loading = true;
-      this.datasource.UPDATE(
-        this.reference,
-        {
-          data: this.localList.fields.reduce((acc, item) => {
-            acc[item.source] = this.data[item.source];
-            return acc;
-          }, {}),
-          id: this.id
+    methods: {
+        load() {
+            this.$data.id = this.$route.params.id;
+
+            this.$data.datasource = this.dataSource();
+
+            this.$data.localList.fields = this.edit.fields.map(field => ({
+                ...field,
+                value: field.source
+            }));
+
+            this.$data.loading = true;
+
+            this.datasource.GET_ONE(
+                this.reference, {
+                    ...this.$route.params
+                },
+                (err, response) => {
+                    if (err) {
+                        this.$data.snackbarText = err.message
+                        this.$data.loading = false
+                        this.$data.lock = true
+                        this.$data.data = {}
+                        return this.$data.snackbar = true
+                    }
+                    this.$data.data = response;
+                    this.$data.loading = false;
+                }
+            );
         },
-        response => {
-          this.$router.push(`/${this.reference}/${this.id}/show`);
+        save() {
+            this.$data.loading = true;
+            this.datasource.UPDATE(
+                this.reference, {
+                    data: this.localList.fields.reduce((acc, item) => {
+                        acc[item.source] = this.data[item.source];
+                        return acc;
+                    }, {}),
+                    id: this.id
+                },
+                (err, response) => {
+                  if (err) {
+                        this.$data.snackbarText = err.message
+                        this.$data.loading = false
+                        return this.$data.snackbar = true
+                    }
+                    this.$router.push(`/${this.reference}/${this.id}/show`);
+                }
+            );
         }
-      );
     }
-  }
 };
 </script>

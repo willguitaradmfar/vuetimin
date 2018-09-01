@@ -15,12 +15,13 @@
     </v-toolbar>
 
     <v-toolbar v-if="hasFilter" card>
-        <v-combobox v-model="chipsFilter" :items="itemsFilter" label="Filter" chips clearable prepend-icon="filter_list" solo multiple>
+        <v-combobox v-model="chipsFilter" @input="changeFilter" @change="changeFilter" :items="itemsFilter" label="Filter" hide-selected chips clearable prepend-icon="filter_list" solo multiple>
             <template slot="selection" slot-scope="data">
-                <v-chip :selected="data.selected" close @input="remove(data.item)">
-                    <strong>{{ data.item }}</strong>
+                <v-chip :selected="data.selected" @input="remove(data.item)">
+                    <v-avatar color="info"><v-icon color="white">filter_list</v-icon></v-avatar>
+                    <strong>{{ data.item }}</strong> = (<strong>{{ data.item }}</strong>)
                 </v-chip>
-            </template>
+            </template>          
         </v-combobox>
     </v-toolbar>
 
@@ -66,6 +67,12 @@
             </template>
         </v-data-table>
     </v-card-text>
+    <v-snackbar v-model="snackbar" color="error" :bottom="true" :multi-line="true" :timeout="7000">
+        {{ snackbarText }}
+        <v-btn color="white" flat @click="snackbar = false">
+            Close
+        </v-btn>
+    </v-snackbar>
 </v-card>
 </template>
 
@@ -97,10 +104,12 @@ export default {
     props: ["list", "dataSource", "reference"],
     data() {
         return {
+            snackbarText: '',
+            snackbar: false,
             nodata: false,
             hasFilter: false,
             chipsFilter: [],
-            itemsFilter:['name++'],
+            itemsFilter: [],
             loading: true,
             localList: {
                 filters: [],
@@ -121,6 +130,9 @@ export default {
     },
     methods: {
         init() {
+
+            this.$data.itemsFilter = this.list.fields.map(field => field.source)
+
             this.$data.dataList = []
 
             this.$data.localList.fields = this.list.fields.map(field => ({
@@ -142,6 +154,9 @@ export default {
         filter() {
             this.pagination.page = 1
             this.load()
+        },
+        changeFilter(a) {
+            console.log(this.chipsFilter, a)
         },
         load() {
             this.$data.pagination.offset = ((this.$data.pagination.page - 1) * this.$data.pagination.rowsPerPage)
@@ -165,7 +180,17 @@ export default {
                                 return acc
                             }, {})
                     },
-                    response => {
+                    (err, response) => {
+
+                        if (err) {
+                            this.$data.snackbarText = err.message
+                            this.$data.loading = false
+                            this.$data.dataList = []
+                            this.$data.nodata = true
+                            this.$data.total = 0
+                            return this.$data.snackbar = true
+                        }
+
                         this.$data.dataList = response.data
                         this.$data.total = parseInt(response.total || '0')
                         this.$data.loading = false

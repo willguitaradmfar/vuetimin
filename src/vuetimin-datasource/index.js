@@ -1,6 +1,6 @@
 import axios from 'axios'
-import faker from 'faker'
 
+import faker from 'faker'
 
 const api = () => {
     const endpoint = "http://dev-octopus.devmania.com.br/api"
@@ -38,6 +38,14 @@ const api = () => {
     }
 }
 
+const randomError = () => {
+    const n = Math.round(Math.random() * 10)
+
+    if(n > 7){
+        return new Error(`Mensagem de erro nesta ação`)
+    }
+}
+
 const mock = () => {
     return {
         GET_LIST(reference, args, cb) {
@@ -46,7 +54,7 @@ const mock = () => {
             )
 
             return setTimeout(() => {
-                cb({
+                cb(randomError(), {
                     total: 2000,
                     data: Array.apply(null, {
                         length: args.rowsPerPage
@@ -85,7 +93,7 @@ const mock = () => {
                 `GET_ONE /${reference}?${JSON.stringify(args)}`
             )
             return setTimeout(() => {
-                cb({
+                cb(randomError(), {
                     id: Math.round(Math.random() * 200000),
                     city: faker.fake("{{address.city}}"),
                     zipCode: faker.fake("{{address.zipCode}}"),
@@ -119,7 +127,7 @@ const mock = () => {
             )
 
             return setTimeout(() => {
-                cb({
+                cb(randomError(), {
                     id: Math.round(Math.random() * 200000),
                     city: faker.fake("{{address.city}}"),
                     zipCode: faker.fake("{{address.zipCode}}"),
@@ -153,7 +161,7 @@ const mock = () => {
             )
 
             return setTimeout(() => {
-                cb({
+                cb(randomError(), {
                     id: Math.round(Math.random() * 200000),
                     city: faker.fake("{{address.city}}"),
                     zipCode: faker.fake("{{address.zipCode}}"),
@@ -187,7 +195,7 @@ const mock = () => {
             )
 
             return setTimeout(() => {
-                cb({
+                cb(randomError(), {
                     id: Math.round(Math.random() * 200000),
                     city: faker.fake("{{address.city}}"),
                     zipCode: faker.fake("{{address.zipCode}}"),
