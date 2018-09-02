@@ -76,11 +76,11 @@ const mock = () => {
                         image: faker.fake("{{image.image}}"),
                         avatar: faker.fake("{{image.avatar}}"),
                         animals: faker.fake("{{image.animals}}"),
-                        email: faker.fake("{{internet.email}}"),
+                        email: args.filters.email || faker.fake("{{internet.email}}"),
                         ip: faker.fake("{{internet.ip}}"),
                         domainName: faker.fake("{{internet.domainName}}"),
                         mac: faker.fake("{{internet.mac}}"),
-                        firstName: faker.fake("{{name.firstName}}"),
+                        firstName: args.filters.firstName ||  faker.fake("{{name.firstName}}"),
                         lastName: faker.fake("{{name.lastName}}"),
                         phoneNumber: faker.fake("{{phone.phoneNumber}}")
                     }))

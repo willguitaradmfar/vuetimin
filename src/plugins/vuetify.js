@@ -28,7 +28,8 @@ import {
   VCombobox,
   VChip,
   VDatePicker,
-  VMenu
+  VMenu,
+  VExpansionPanel
   
 } from 'vuetify'
 import 'vuetify/src/stylus/app.styl'
@@ -62,7 +63,8 @@ Vue.use(Vuetify, {
     VCombobox,
     VChip,
     VDatePicker,
-    VMenu
+    VMenu,
+    VExpansionPanel
     
   },
   theme: {

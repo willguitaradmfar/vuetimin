@@ -1,5 +1,12 @@
 <template>
 <v-card>
+    <v-dialog v-model="dialogFilter.open" width="300">
+        <v-card>
+            <v-card-text>
+                <v-text-field :autofocus="true" v-model="dialogFilter.field.search" @keyup.enter="okDialogFilter" prepend-icon="filter_list" :label="dialogFilter.field ? dialogFilter.field.text : ''"></v-text-field>
+            </v-card-text>
+        </v-card>
+    </v-dialog>
     <v-toolbar card>
         <v-btn color="info" fab small :to="'/' + reference" @click="hasFilter = !hasFilter">
             <v-icon>filter_list</v-icon>
@@ -15,13 +22,23 @@
     </v-toolbar>
 
     <v-toolbar v-if="hasFilter" card>
-        <v-combobox v-model="chipsFilter" @input="changeFilter" @change="changeFilter" :items="itemsFilter" label="Filter" hide-selected chips clearable prepend-icon="filter_list" solo multiple>
+        <v-combobox v-model="chipsFilter" @input="openFilter" :items="localListFilter.fields"  :autofocus="true" label="Filter" hide-selected chips clearable solo multiple>
             <template slot="selection" slot-scope="data">
-                <v-chip :selected="data.selected" @input="remove(data.item)">
-                    <v-avatar color="info"><v-icon color="white">filter_list</v-icon></v-avatar>
-                    <strong>{{ data.item }}</strong> = (<strong>{{ data.item }}</strong>)
+                <v-chip :selected="data.selected">
+                    <v-avatar color="info">
+                        <v-btn color="warning" fab small :style="{ cursor: 'pointer'}" @click="openFilter(data.item)">
+                            <v-icon color="white" :style="{ cursor: 'pointer'}">create</v-icon>
+                        </v-btn>
+                    </v-avatar>
+                    <strong>{{ data.item.text || data.item.source }}</strong> 
+                    <span v-if="data.item.search">({{ data.item.search }})</span>
                 </v-chip>
-            </template>          
+            </template>
+
+            <template slot="item" slot-scope="{ index, item, parent }">
+                {{item.text || item.source}} 
+                <span v-if="item.search">({{ item.search }})</span>
+            </template>
         </v-combobox>
     </v-toolbar>
 
@@ -104,6 +121,10 @@ export default {
     props: ["list", "dataSource", "reference"],
     data() {
         return {
+            dialogFilter: {
+                open: false,
+                field: {}
+            },
             snackbarText: '',
             snackbar: false,
             nodata: false,
@@ -111,8 +132,10 @@ export default {
             chipsFilter: [],
             itemsFilter: [],
             loading: true,
+            localListFilter: {
+                fields: []
+            },
             localList: {
-                filters: [],
                 fields: []
             },
             dataList: [],
@@ -131,7 +154,7 @@ export default {
     methods: {
         init() {
 
-            this.$data.itemsFilter = this.list.fields.map(field => field.source)
+            this.$data.itemsFilter = this.list.fields
 
             this.$data.dataList = []
 
@@ -141,7 +164,7 @@ export default {
             }))
 
             this.$data.datasource = this.dataSource()
-            this.$data.localList.filters = this.$data.localList.fields.filter(field => !!field.filter)
+            this.$data.localListFilter.fields = this.$data.localList.fields.filter(field => !!field.filter)
 
             this.$data.localList.fields.push({
                 text: "Actions",
@@ -151,13 +174,25 @@ export default {
             this.load()
         },
 
-        filter() {
-            this.pagination.page = 1
+        okDialogFilter() {
+            this.$data.dialogFilter.open = false
             this.load()
         },
-        changeFilter(a) {
-            console.log(this.chipsFilter, a)
+
+        openFilter(selected) {
+            // console.log(JSON.stringify(selected, null, '\t'))
+            console.log(JSON.stringify(this.chipsFilter, null, '\t'))
+            if (selected.length !== undefined) {
+                if (selected.length == 0 || selected[selected.length - 1].search) {
+                    this.load()
+                    return
+                }
+            }
+
+            this.$data.dialogFilter.open = true
+            this.$data.dialogFilter.field = selected.length ? selected[selected.length - 1] : selected
         },
+
         load() {
             this.$data.pagination.offset = ((this.$data.pagination.page - 1) * this.$data.pagination.rowsPerPage)
 
@@ -172,8 +207,7 @@ export default {
                         ...this.$data.pagination,
                         filters: this
                             .$data
-                            .localList
-                            .filters
+                            .chipsFilter
                             .filter(item => !!item.search)
                             .reduce((acc, item) => {
                                 acc[item.source] = item.search

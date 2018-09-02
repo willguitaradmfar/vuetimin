@@ -69,11 +69,13 @@ export default {
               {
                 text: "First Name",
                 sortable: true,
+                filter:true,
                 source: "firstName"
               },
               {
                 text: "email",
                 sortable: true,
+                filter:true,
                 source: "email"
               },
               {
