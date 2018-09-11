@@ -41,7 +41,7 @@ const api = () => {
 const randomError = () => {
     const n = Math.round(Math.random() * 10)
 
-    if(n > 7){
+    if(n > 8.5){
         return new Error(`Mensagem de erro nesta ação`)
     }
 }
