@@ -1,12 +1,12 @@
 <template>
 <v-card>
     <v-toolbar card>
-        <v-btn color="info" fab small :to="'/' + reference">
+        <v-btn color="info" fab small :to="'/' + reference" v-if="list">
             <v-icon>reply</v-icon>
         </v-btn>
         <v-toolbar-title>{{reference}} #{{id}}</v-toolbar-title>
         <v-spacer></v-spacer>
-        <v-btn color="white" :to="'/' + reference + '/' + id + '/show'" fab small>
+        <v-btn color="white" :to="'/' + reference + '/' + id + '/show'" fab small  v-if="show">
             <v-icon>close</v-icon>
         </v-btn>
     </v-toolbar>
@@ -36,7 +36,7 @@
 import axios from "axios";
 
 export default {
-    props: ["edit", "dataSource", "reference"],
+    props: ["list", "edit", "show", "dataSource", "reference"],
     watch: {},
     data: () => ({
         snackbarText: '',

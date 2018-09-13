@@ -13,7 +13,7 @@
         </v-btn>
         <v-toolbar-title>{{reference}}</v-toolbar-title>
         <v-spacer></v-spacer>
-        <v-btn color="primary" :to="'/' + reference + '/new'" fab small>
+        <v-btn color="primary" :to="'/' + reference + '/new'" fab small v-if="_new">
             <v-icon>add</v-icon>
         </v-btn>
         <v-btn :loading="loading" color="info" fab small @click="load">
@@ -63,10 +63,10 @@
                 <td v-for="item in localList.fields" v-bind:key="item.source" v-if="item.value !== 'action'">{{ props.item[item.source] }}</td>
 
                 <td>
-                    <router-link :to="'/' + reference + '/' + props.item.id + '/edit'" tag="button">
+                    <router-link :to="'/' + reference + '/' + props.item.id + '/edit'" tag="button" v-if="edit">
                         <v-icon>edit</v-icon>
                     </router-link>
-                    <router-link :to="'/' + reference + '/' + props.item.id + '/show'" tag="button">
+                    <router-link :to="'/' + reference + '/' + props.item.id + '/show'" tag="button" v-if="show">
                         <v-icon>visibility</v-icon>
                     </router-link>
                 </td>
@@ -127,6 +127,7 @@ export default {
      * ESCUTA A ALTERAÇÃO DE QUANTIDADE POR PAGINA
      */
     "pagination.rowsPerPage"() {
+      this.setStateFilter();
       this.load();
     },
 
@@ -156,7 +157,12 @@ export default {
   /**
    * PROPRIEDADE RECEBIDAS POR PARAMETROS
    */
-  props: ["list", "dataSource", "reference"],
+  props: ["list", "edit", "show", "new", "dataSource", "reference"],
+  computed:{
+    _new(){
+      return this.new
+    }
+  },
   data() {
     return {
       /**
@@ -293,11 +299,11 @@ export default {
      * SETA OESTADO DO FILTRO
      */
     setStateFilter() {
-      localStorage.setItem("list.filter", JSON.stringify(this.chipsFilter));
-      localStorage.setItem(
-        "list.sort",
-        JSON.stringify(this.pagination)
-      );
+      localStorage.setItem(`${this.reference}.list.filter`, JSON.stringify(this.chipsFilter));
+      localStorage.setItem(`${this.reference}.list.sort`, JSON.stringify({
+        ...this.pagination,
+        offset: 0
+      }));
       //   const searchParams = new URLSearchParams(location.hash.substring(location.hash.indexOf('?')+1));
       //   searchParams.set('filter', encodeURIComponent(JSON.stringify(this.chipsFilter)))
       //   location.hash = searchParams.toString()
@@ -308,11 +314,11 @@ export default {
      */
     getStateFilter() {
       this.$data.chipsFilter = JSON.parse(
-        localStorage.getItem("list.filter") || "[]"
+        localStorage.getItem(`${this.reference}.list.filter`) || "[]"
       );
 
       this.$data.pagination = JSON.parse(
-        localStorage.getItem("list.sort") || "{}"
+        localStorage.getItem(`${this.reference}.list.sort`) || "{}"
       );
       // const searchParams = new URLSearchParams(location.hash);
       // this.$data.chipsFilter = JSON.parse(searchParams.get('filter') || '[]')

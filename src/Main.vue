@@ -1,103 +1,23 @@
 <template>
-<Admin :auth="auth" :dataSource="dataSource" :resources="resources" />
+<Admin :auth="auth" :dataSource="dataSource" :resources="resources" v-if="resources.length" />
 </template>
 <script>
 import Admin from "./vuetimin/Admin";
 
 import Testeresource from "./vuetimin-datasource";
 
+import data from "./util";
+
 export default {
   data() {
     return {
-      resources: [
-        {
-          reference: "customer",
-          new: {
-            fields: [
-              {
-                text: "First Name",
-                source: "firstName"
-              },
-              {
-                text: "email",
-                source: "email"
-              },
-              {
-                text: "Mac",
-                source: "mac"
-              }
-            ]
-          },
-          edit: {
-            fields: [
-              {
-                text: "First Name",
-                source: "firstName"
-              },
-              {
-                text: "email",
-                source: "email"
-              },
-              {
-                text: "Mac",
-                source: "mac"
-              }
-            ]
-          },
-          show: {
-            fields: [
-              {
-                text: "First Name",
-                source: "firstName"
-              },
-              {
-                text: "email",
-                source: "email"
-              },
-              {
-                text: "IP",
-                source: "ip"
-              },
-              {
-                text: "price",
-                source: "price"
-              }
-            ]
-          },
-          list: {
-            fields: [
-              {
-                text: "First Name",
-                sortable: true,
-                filter:true,
-                source: "firstName"
-              },
-              {
-                text: "email",
-                sortable: true,
-                filter:true,
-                source: "email"
-              },
-              {
-                text: "Mac",
-                sortable: true,
-                source: "mac"
-              },
-              {
-                text: "IP",
-                sortable: true,
-                source: "ip"
-              },
-              {
-                text: "price",
-                sortable: true,
-                source: "price"
-              }
-            ]
-          }
-        }
-      ]
+      resources: []
     };
+  },
+
+  async created() {
+    const res = await data.get()
+    this.$data.resources = res.data.resources
   },
 
   methods: {

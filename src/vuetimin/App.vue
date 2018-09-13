@@ -96,9 +96,8 @@ export default {
           name: resource.reference,
           component: List,
           props: {
-            list: resource.list,
-            dataSource: this.$attrs.dataSource,
-            reference: resource.reference
+            ...resource,
+            dataSource: this.$attrs.dataSource
           }
         });
       }
@@ -109,9 +108,8 @@ export default {
           name: resource.reference,
           component: Show,
           props: {
-            show: resource.show,
-            dataSource: this.$attrs.dataSource,
-            reference: resource.reference
+            ...resource,
+            dataSource: this.$attrs.dataSource
           }
         });
       }
@@ -122,9 +120,8 @@ export default {
           name: resource.reference,
           component: Edit,
           props: {
-            edit: resource.edit,
-            dataSource: this.$attrs.dataSource,
-            reference: resource.reference
+            ...resource,
+            dataSource: this.$attrs.dataSource
           }
         });
       }
@@ -135,9 +132,8 @@ export default {
           name: resource.reference,
           component: New,
           props: {
-            new: resource.new,
-            dataSource: this.$attrs.dataSource,
-            reference: resource.reference
+            ...resource,
+            dataSource: this.$attrs.dataSource
           }
         });
       }

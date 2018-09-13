@@ -20,7 +20,7 @@
         </v-card>
     </v-dialog>
     <v-toolbar card>
-        <v-btn color="info" fab small :to="'/' + reference">
+        <v-btn color="info" fab small :to="'/' + reference" v-if="list">
             <v-icon>reply</v-icon>
         </v-btn>
         <v-toolbar-title>{{reference}} #{{id}}</v-toolbar-title>
@@ -29,7 +29,7 @@
         <v-btn :loading="loading" color="info" fab small @click="load">
             <v-icon>refresh</v-icon>
         </v-btn>
-        <v-btn color="warning" :to="'/' + reference + '/' + id + '/edit'" fab small>
+        <v-btn color="warning" :to="'/' + reference + '/' + id + '/edit'" fab small v-if="edit">
             <v-icon>create</v-icon>
         </v-btn>
         <v-btn color="error" fab small @click="dialog = true" :loading="removing">
@@ -63,7 +63,7 @@
 import axios from "axios";
 
 export default {
-    props: ["show", "dataSource", "reference"],
+    props: ["show", "list", "edit", "dataSource", "reference"],
     watch: {},
     data: () => ({
         snackbarText: '',
