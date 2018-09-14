@@ -157,10 +157,10 @@ export default {
   /**
    * PROPRIEDADE RECEBIDAS POR PARAMETROS
    */
-  props: ["list", "edit", "show", "new", "dataSource", "reference"],
-  computed:{
-    _new(){
-      return this.new
+  props: ["list", "edit", "show", "new", "dataSource", "reference", "stateURL"],
+  computed: {
+    _new() {
+      return this.new;
     }
   },
   data() {
@@ -299,14 +299,36 @@ export default {
      * SETA OESTADO DO FILTRO
      */
     setStateFilter() {
-      localStorage.setItem(`${this.reference}.list.filter`, JSON.stringify(this.chipsFilter));
-      localStorage.setItem(`${this.reference}.list.sort`, JSON.stringify({
-        ...this.pagination,
-        offset: 0
-      }));
-      //   const searchParams = new URLSearchParams(location.hash.substring(location.hash.indexOf('?')+1));
-      //   searchParams.set('filter', encodeURIComponent(JSON.stringify(this.chipsFilter)))
-      //   location.hash = searchParams.toString()
+      localStorage.setItem(
+        `${this.reference}.list.filter`,
+        JSON.stringify(this.chipsFilter)
+      );
+      localStorage.setItem(
+        `${this.reference}.list.pagination`,
+        JSON.stringify({
+          ...this.pagination,
+          offset: 0
+        })
+      );
+
+      /**
+       * BASE64
+       */
+      const stateURL = btoa(
+        JSON.stringify({
+          filter: this.chipsFilter,
+          pagination: {
+            ...this.pagination,
+            offset: 0
+          }
+        })
+      );
+
+      if (stateURL.length > 2083) {
+        alert("limit de caractere maior que " + 2083);
+      }
+
+      this.$router.replace({ query: { stateURL } });
     },
 
     /**
@@ -318,10 +340,26 @@ export default {
       );
 
       this.$data.pagination = JSON.parse(
-        localStorage.getItem(`${this.reference}.list.sort`) || "{}"
+        localStorage.getItem(`${this.reference}.list.pagination`) || "{}"
       );
-      // const searchParams = new URLSearchParams(location.hash);
-      // this.$data.chipsFilter = JSON.parse(searchParams.get('filter') || '[]')
+
+      if (this.$route.query && this.$route.query.stateURL) {
+        /**
+         * BASE64
+         */
+        let json = atob(this.$route.query.stateURL);
+
+        let stateURL = JSON.parse(json);
+
+        /**
+         * ATUALIZA VARIAVEL SE TEM STATE URL
+         */
+        this.$data.chipsFilter = stateURL.filter;
+
+        this.$data.pagination = stateURL.pagination;
+
+        this.setStateFilter();
+      }
     },
 
     /**

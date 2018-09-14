@@ -28,7 +28,7 @@
 				]
 			},
 			"edit": {
-				"fields": [
+				"fields": [					
 					{
 						"text": "First Name",
 						"source": "firstName"
@@ -39,34 +39,14 @@
 					},
 					{
 						"text": "Mac",
-						"source": "mac"
-					},
-					{
-						"text": "First Name",
-						"sortable": true,
-						"filter": true,
-						"source": "firstName"
-					},
-					{
-						"text": "email",
-						"sortable": true,
-						"filter": true,
-						"source": "email"
-					},
-					{
-						"text": "Mac",
-						"sortable": true,
-						"filter": true,
 						"source": "mac"
 					},
 					{
 						"text": "IP",
-						"sortable": true,
 						"source": "ip"
 					},
 					{
 						"text": "price",
-						"sortable": true,
 						"source": "price"
 					}
 				]
@@ -114,12 +94,32 @@
 					{
 						"text": "IP",
 						"sortable": true,
+						"filter": true,
 						"source": "ip"
 					},
 					{
 						"text": "price",
 						"sortable": true,
+						"filter": true,
 						"source": "price"
+					},
+					{
+						"text": "productName",
+						"sortable": true,
+						"filter": true,
+						"source": "productName"
+					},
+					{
+						"text": "color",
+						"sortable": true,
+						"filter": true,
+						"source": "color"
+					},
+					{
+						"text": "department",
+						"sortable": true,
+						"filter": true,
+						"source": "department"
 					}
 				]
 			}
