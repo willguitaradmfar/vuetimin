@@ -69,7 +69,39 @@
                     <router-link :to="'/' + reference + '/' + props.item.id + '/show'" tag="button" v-if="show">
                         <v-icon>visibility</v-icon>
                     </router-link>
+
+                    <a @click="props.expanded = 'edit'" v-if="editExpand">
+                      <v-icon>edit</v-icon>
+                    </a>
+               
+                    <a @click="props.expanded = 'show'" v-if="showExpand">
+                      <v-icon>visibility</v-icon>
+                    </a>
+                    
                 </td>
+            </template>
+
+            <template slot="expand" slot-scope="props">
+              <Show 
+                v-if="props.expanded === 'show'" 
+                :closeFn="() => props.expanded = undefined"
+                :editFn="() => props.expanded = 'edit'" 
+                :dataSource="dataSource" 
+                :reference="reference" 
+                :show="showExpand"
+                :edit="editExpand"
+                :params="{id: props.item.id}"></Show>
+
+              <Edit 
+                v-if="props.expanded === 'edit'"
+                :closeFn="() => props.expanded = undefined"
+                :showFn="() => props.expanded = 'show'"
+                :dataSource="dataSource" 
+                :reference="reference" 
+                :show="showExpand" 
+                :edit="editExpand" 
+                :params="{id: props.item.id}"></Edit>
+            
             </template>
 
             <template slot="pageText" slot-scope="props">
@@ -99,6 +131,9 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 
 <script>
+import Show from "./Show";
+import Edit from "./Edit";
+
 export default {
   watch: {
     /**
@@ -157,7 +192,16 @@ export default {
   /**
    * PROPRIEDADE RECEBIDAS POR PARAMETROS
    */
-  props: ["list", "edit", "show", "new", "dataSource", "reference", "stateURL"],
+  props: [
+    "list",
+    "edit",
+    "show",
+    "new",
+    "dataSource",
+    "reference",
+    "showExpand",
+    "editExpand"
+  ],
   computed: {
     _new() {
       return this.new;
@@ -264,6 +308,11 @@ export default {
         descending: true
       }
     };
+  },
+
+  components: {
+    Show,
+    Edit
   },
 
   methods: {
@@ -375,8 +424,6 @@ export default {
      * ABRE O FILTRO DIALOG
      */
     openFilter(selected) {
-      // console.log(JSON.stringify(selected, null, '\t'))
-      console.log(JSON.stringify(this.chipsFilter, null, "\t"));
       if (selected.length !== undefined) {
         if (selected.length == 0 || selected[selected.length - 1].search) {
           this.load();

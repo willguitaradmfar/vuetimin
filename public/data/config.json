@@ -7,6 +7,50 @@
 				"source": "firstName",
 				"filter": true
 			}]
+		},
+		"editExpand": {
+			"fields": [{
+				"text": "First Name",
+				"source": "firstName"
+			},
+			{
+				"text": "email",
+				"source": "email"
+			},
+			{
+				"text": "Mac",
+				"source": "mac"
+			},
+			{
+				"text": "IP",
+				"source": "ip"
+			},
+			{
+				"text": "price",
+				"source": "price"
+			}]
+		},
+		"showExpand": {
+			"fields": [{
+				"text": "First Name",
+				"source": "firstName"
+			},
+			{
+				"text": "email",
+				"source": "email"
+			},
+			{
+				"text": "Mac",
+				"source": "mac"
+			},
+			{
+				"text": "IP",
+				"source": "ip"
+			},
+			{
+				"text": "price",
+				"source": "price"
+			}]
 		}
 	},
 		{

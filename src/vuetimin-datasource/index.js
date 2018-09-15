@@ -50,7 +50,7 @@ const mock = () => {
     return {
         GET_LIST(reference, args, cb) {
             console.log(
-                `GET_LIST /${reference}?${JSON.stringify(args)}`
+                `GET_LIST /${reference}?${JSON.stringify(args, null, '\t')}`
             )
 
             return setTimeout(() => {
@@ -90,7 +90,7 @@ const mock = () => {
         },
         GET_ONE(reference, args, cb) {
             console.log(
-                `GET_ONE /${reference}?${JSON.stringify(args)}`
+                `GET_ONE /${reference}?${JSON.stringify(args, null, '\t')}`
             )
             return setTimeout(() => {
                 cb(randomError(), {
@@ -123,7 +123,7 @@ const mock = () => {
         },
         CREATE(reference, args, cb) {
             console.log(
-                `CREATE /${reference}?${JSON.stringify(args)}`
+                `CREATE /${reference}?${JSON.stringify(args, null, '\t')}`
             )
 
             return setTimeout(() => {
@@ -157,7 +157,7 @@ const mock = () => {
         },
         UPDATE(reference, args, cb) {
             console.log(
-                `UPDATE /${reference}?${JSON.stringify(args)}`
+                `UPDATE /${reference}?${JSON.stringify(args, null, '\t')}`
             )
 
             return setTimeout(() => {
@@ -191,7 +191,7 @@ const mock = () => {
         },
         DELETE(reference, args, cb) {
             console.log(
-                `DELETE /${reference}?${JSON.stringify(args)}`
+                `DELETE /${reference}?${JSON.stringify(args, null, '\t')}`
             )
 
             return setTimeout(() => {

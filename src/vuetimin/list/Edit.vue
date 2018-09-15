@@ -4,9 +4,12 @@
         <v-btn color="info" fab small :to="'/' + reference" v-if="list">
             <v-icon>reply</v-icon>
         </v-btn>
-        <v-toolbar-title>{{reference}} #{{id}}</v-toolbar-title>
+        <v-toolbar-title>{{reference}} #{{ $route.params.id || params.id }}</v-toolbar-title>
         <v-spacer></v-spacer>
-        <v-btn color="white" :to="'/' + reference + '/' + id + '/show'" fab small  v-if="show">
+        <v-btn color="white" :to="'/' + reference + '/' + $route.params.id + '/show'" fab small  v-if="show && !closeFn">
+            <v-icon>close</v-icon>
+        </v-btn>
+        <v-btn color="white" @click="closeFn()" fab small  v-if="show && closeFn">
             <v-icon>close</v-icon>
         </v-btn>
     </v-toolbar>
@@ -36,73 +39,76 @@
 import axios from "axios";
 
 export default {
-    props: ["list", "edit", "show", "dataSource", "reference"],
-    watch: {},
-    data: () => ({
-        snackbarText: '',
-        snackbar: false,
-        id: 0,
-        data: {},
-        loading: true,
-        datasource: null,
-        lock: false,
-        localList: {
-            fields: []
-        }
-    }),
-    created() {
-        this.load();
-    },
-    methods: {
-        load() {
-            this.$data.id = this.$route.params.id;
-
-            this.$data.datasource = this.dataSource();
-
-            this.$data.localList.fields = this.edit.fields.map(field => ({
-                ...field,
-                value: field.source
-            }));
-
-            this.$data.loading = true;
-
-            this.datasource.GET_ONE(
-                this.reference, {
-                    ...this.$route.params
-                },
-                (err, response) => {
-                    if (err) {
-                        this.$data.snackbarText = err.message
-                        this.$data.loading = false
-                        this.$data.lock = true
-                        this.$data.data = {}
-                        return this.$data.snackbar = true
-                    }
-                    this.$data.data = response;
-                    this.$data.loading = false;
-                }
-            );
-        },
-        save() {
-            this.$data.loading = true;
-            this.datasource.UPDATE(
-                this.reference, {
-                    data: this.localList.fields.reduce((acc, item) => {
-                        acc[item.source] = this.data[item.source];
-                        return acc;
-                    }, {}),
-                    id: this.id
-                },
-                (err, response) => {
-                  if (err) {
-                        this.$data.snackbarText = err.message
-                        this.$data.loading = false
-                        return this.$data.snackbar = true
-                    }
-                    this.$router.push(`/${this.reference}/${this.id}/show`);
-                }
-            );
-        }
+  props: ["list", "edit", "show", "params", "dataSource", "reference", "closeFn", "showFn"],
+  watch: {},
+  data: () => ({
+    snackbarText: "",
+    snackbar: false,
+    data: {},
+    loading: true,
+    datasource: null,
+    lock: false,
+    localList: {
+      fields: []
     }
+  }),
+  created() {
+    this.load();
+  },
+  methods: {
+    load() {
+      this.$data.datasource = this.dataSource();
+
+      this.$data.localList.fields = this.edit.fields.map(field => ({
+        ...field,
+        value: field.source
+      }));
+
+      this.$data.loading = true;
+
+      this.datasource.GET_ONE(
+        this.reference,
+        {
+          ...(this.params || this.$route.params)
+        },
+        (err, response) => {
+          if (err) {
+            this.$data.snackbarText = err.message;
+            this.$data.loading = false;
+            this.$data.lock = true;
+            this.$data.data = {};
+            return (this.$data.snackbar = true);
+          }
+          this.$data.data = response;
+          this.$data.loading = false;
+        }
+      );
+    },
+    save() {
+      this.$data.loading = true;
+      this.datasource.UPDATE(
+        this.reference,
+        {
+          data: this.localList.fields.reduce((acc, item) => {
+            acc[item.source] = this.data[item.source];
+            return acc;
+          }, {}),
+          id: this.id
+        },
+        (err, response) => {
+          if (err) {
+            this.$data.snackbarText = err.message;
+            this.$data.loading = false;
+            return (this.$data.snackbar = true);
+          }
+          if (this.showFn) {
+            this.showFn();
+          } else {
+            this.$router.push(`/${this.reference}/${this.$route.params.id}/show`);
+          }
+        }
+      );
+    }
+  }
 };
 </script>

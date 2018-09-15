@@ -23,19 +23,21 @@
         <v-btn color="info" fab small :to="'/' + reference" v-if="list">
             <v-icon>reply</v-icon>
         </v-btn>
-        <v-toolbar-title>{{reference}} #{{id}}</v-toolbar-title>
+        <v-toolbar-title>{{reference}} #{{ $route.params.id || params.id }}</v-toolbar-title>
         <v-spacer></v-spacer>
 
         <v-btn :loading="loading" color="info" fab small @click="load">
             <v-icon>refresh</v-icon>
         </v-btn>
-        <v-btn color="warning" :to="'/' + reference + '/' + id + '/edit'" fab small v-if="edit">
+        <v-btn color="warning" :to="'/' + reference + '/' + $route.params.id + '/edit'" fab small v-if="edit && !editFn">
+            <v-icon>create</v-icon>
+        </v-btn>
+        <v-btn color="warning" @click="editFn()" fab small v-if="edit && editFn">
             <v-icon>create</v-icon>
         </v-btn>
         <v-btn color="error" fab small @click="dialog = true" :loading="removing">
             <v-icon>delete</v-icon>
         </v-btn>
-
     </v-toolbar>
     <v-card-text>
         <v-container>
@@ -63,72 +65,82 @@
 import axios from "axios";
 
 export default {
-    props: ["show", "list", "edit", "dataSource", "reference"],
-    watch: {},
-    data: () => ({
-        snackbarText: '',
-        snackbar: false,
-        id: 0,
-        data: {},
-        loading: true,
-        removing: false,
-        datasource: null,
-        dialog: false,
-        localList: {
-            fields: []
-        }
-    }),
-    created() {
-        this.load();
-    },
-    methods: {
-        load() {
-            this.$data.id = this.$route.params.id;
-
-            this.$data.datasource = this.dataSource();
-
-            this.$data.localList.fields = this.show.fields.map(field => ({
-                ...field,
-                value: field.source
-            }));
-
-            this.$data.loading = true;
-
-            this.datasource.GET_ONE(
-                this.reference, {
-                    ...this.$route.params
-                },
-                (err, response) => {
-                    if (err) {
-                        this.$data.snackbarText = err.message
-                        this.$data.loading = false
-                        this.$data.data = {}
-                        return this.$data.snackbar = true
-                    }
-                    this.$data.data = response;
-                    this.$data.loading = false;
-                }
-            );
-        },
-        remove() {
-            this.$data.removing = true
-            this.$data.dialog = false
-            this.datasource.DELETE(
-                this.reference, {
-                    id: this.id
-                },
-                (err, response) => {
-                    if (err) {
-                        this.$data.snackbarText = err.message
-                        this.$data.loading = false
-                        this.$data.removing = false
-                        return this.$data.snackbar = true
-                    }
-                    this.$data.removing = false
-                    this.$router.push(`/${this.reference}`);
-                }
-            );
-        }
+  props: [
+    "show",
+    "list",
+    "edit",
+    "dataSource",
+    "reference",
+    "params",
+    "closeFn",
+    "editFn"
+  ],
+  data: () => ({
+    snackbarText: "",
+    snackbar: false,
+    data: {},
+    loading: true,
+    removing: false,
+    datasource: null,
+    dialog: false,
+    localList: {
+      fields: []
     }
+  }),
+  created() {
+    this.load();
+  },
+  methods: {
+    load() {
+      this.$data.datasource = this.dataSource();
+
+      this.$data.localList.fields = this.show.fields.map(field => ({
+        ...field,
+        value: field.source
+      }));
+
+      this.$data.loading = true;
+
+      this.datasource.GET_ONE(
+        this.reference,
+        {
+          ...(this.params || this.$route.params)
+        },
+        (err, response) => {
+          if (err) {
+            this.$data.snackbarText = err.message;
+            this.$data.loading = false;
+            this.$data.data = {};
+            return (this.$data.snackbar = true);
+          }
+          this.$data.data = response;
+          this.$data.loading = false;
+        }
+      );
+    },
+    remove() {
+      this.$data.removing = true;
+      this.$data.dialog = false;
+      this.datasource.DELETE(
+        this.reference,
+        this.params || this.$route.params,
+        (err, response) => {
+          if (err) {
+            this.$data.snackbarText = err.message;
+            this.$data.loading = false;
+            this.$data.removing = false;
+            return (this.$data.snackbar = true);
+          }
+          this.$data.removing = false;
+
+          if (this.closeFn) {
+            this.closeFn();
+          } else {
+            this.$router.push(`/${this.reference}`);
+          }
+        }
+      );
+    }
+  }
 };
 </script>
