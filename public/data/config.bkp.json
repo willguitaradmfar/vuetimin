@@ -1,0 +1,194 @@
+{
+	"resources": [
+		{
+			"reference": "bla",
+			"list": {
+				"fields": [
+					{
+						"text": "Mimi",
+						"source": "firstName",
+						"filter": true
+					},
+					{
+						"text": "email",
+						"source": "email",
+						"filter": true
+					},
+					{
+						"text": "Mac",
+						"source": "mac",
+						"filter": true
+					},
+					{
+						"text": "IP",
+						"source": "ip",
+						"filter": true
+					}
+				]
+			},
+			"editExpand": {
+				"fields": [
+					{
+						"text": "First Name",
+						"source": "firstName"
+					},
+					{
+						"text": "email",
+						"source": "email"
+					},
+					{
+						"text": "Mac",
+						"source": "mac"
+					},
+					{
+						"text": "IP",
+						"source": "ip"
+					},
+					{
+						"text": "price",
+						"source": "price"
+					}
+				]
+			},
+			"showExpand": {
+				"fields": [
+					{
+						"text": "First Name",
+						"source": "firstName"
+					},
+					{
+						"text": "email",
+						"source": "email"
+					},
+					{
+						"text": "Mac",
+						"source": "mac"
+					},
+					{
+						"text": "IP",
+						"source": "ip"
+					},
+					{
+						"text": "price",
+						"source": "price"
+					}
+				]
+			}
+		},
+		{
+			"reference": "customer",
+			"new": {
+				"fields": [
+					{
+						"text": "First Name",
+						"source": "firstName"
+					},
+					{
+						"text": "email",
+						"source": "email"
+					},
+					{
+						"text": "Mac",
+						"source": "mac"
+					}
+				]
+			},
+			"edit": {
+				"fields": [
+					{
+						"text": "First Name",
+						"source": "firstName"
+					},
+					{
+						"text": "email",
+						"source": "email"
+					},
+					{
+						"text": "Mac",
+						"source": "mac"
+					},
+					{
+						"text": "IP",
+						"source": "ip"
+					},
+					{
+						"text": "price",
+						"source": "price"
+					}
+				]
+			},
+			"show": {
+				"fields": [
+					{
+						"text": "First Name",
+						"source": "firstName"
+					},
+					{
+						"text": "email",
+						"source": "email"
+					},
+					{
+						"text": "IP",
+						"source": "ip"
+					},
+					{
+						"text": "price",
+						"source": "price"
+					}
+				]
+			},
+			"list": {
+				"fields": [
+					{
+						"text": "First Name",
+						"sortable": true,
+						"filter": true,
+						"source": "firstName"
+					},
+					{
+						"text": "email",
+						"sortable": true,
+						"filter": true,
+						"source": "email"
+					},
+					{
+						"text": "Mac",
+						"sortable": true,
+						"filter": true,
+						"source": "mac"
+					},
+					{
+						"text": "IP",
+						"sortable": true,
+						"filter": true,
+						"source": "ip"
+					},
+					{
+						"text": "price",
+						"sortable": true,
+						"filter": true,
+						"source": "price"
+					},
+					{
+						"text": "productName",
+						"sortable": true,
+						"filter": true,
+						"source": "productName"
+					},
+					{
+						"text": "color",
+						"sortable": true,
+						"filter": true,
+						"source": "color"
+					},
+					{
+						"text": "department",
+						"sortable": true,
+						"filter": true,
+						"source": "department"
+					}
+				]
+			}
+		}
+	]
+}

@@ -1,183 +1,215 @@
 {
-	"resources": [{
-		"reference": "bla",
-		"list": {
-			"fields": [{
-				"text": "Mimi",
-				"source": "firstName",
-				"filter": true
-			},{
-				"text": "email",
-				"source": "email",
-				"filter": true
-			},
-			{
-				"text": "Mac",
-				"source": "mac",
-				"filter": true
-			},
-			{
-				"text": "IP",
-				"source": "ip",
-				"filter": true
-			}]
-		},
-		"editExpand": {
-			"fields": [{
-				"text": "First Name",
-				"source": "firstName"
-			},
-			{
-				"text": "email",
-				"source": "email"
-			},
-			{
-				"text": "Mac",
-				"source": "mac"
-			},
-			{
-				"text": "IP",
-				"source": "ip"
-			},
-			{
-				"text": "price",
-				"source": "price"
-			}]
-		},
-		"showExpand": {
-			"fields": [{
-				"text": "First Name",
-				"source": "firstName"
-			},
-			{
-				"text": "email",
-				"source": "email"
-			},
-			{
-				"text": "Mac",
-				"source": "mac"
-			},
-			{
-				"text": "IP",
-				"source": "ip"
-			},
-			{
-				"text": "price",
-				"source": "price"
-			}]
-		}
-	},
+	"resources": [
 		{
-			"reference": "customer",
-			"new": {
-				"fields": [
-					{
-						"text": "First Name",
-						"source": "firstName"
-					},
-					{
-						"text": "email",
-						"source": "email"
-					},
-					{
-						"text": "Mac",
-						"source": "mac"
-					}
-				]
-			},
-			"edit": {
-				"fields": [					
-					{
-						"text": "First Name",
-						"source": "firstName"
-					},
-					{
-						"text": "email",
-						"source": "email"
-					},
-					{
-						"text": "Mac",
-						"source": "mac"
-					},
-					{
-						"text": "IP",
-						"source": "ip"
-					},
-					{
-						"text": "price",
-						"source": "price"
-					}
-				]
-			},
-			"show": {
-				"fields": [
-					{
-						"text": "First Name",
-						"source": "firstName"
-					},
-					{
-						"text": "email",
-						"source": "email"
-					},
-					{
-						"text": "IP",
-						"source": "ip"
-					},
-					{
-						"text": "price",
-						"source": "price"
-					}
-				]
-			},
+			"reference": "menu1",
 			"list": {
 				"fields": [
 					{
-						"text": "First Name",
-						"sortable": true,
-						"filter": true,
-						"source": "firstName"
+						"text": "address_city",
+						"source": "address_city",
+						"filter": true
 					},
 					{
-						"text": "email",
-						"sortable": true,
-						"filter": true,
-						"source": "email"
+						"text": "address_cityPrefix",
+						"source": "address_cityPrefix",
+						"filter": true
 					},
 					{
-						"text": "Mac",
-						"sortable": true,
-						"filter": true,
-						"source": "mac"
+						"text": "address_country",
+						"source": "address_country",
+						"filter": true
 					},
 					{
-						"text": "IP",
-						"sortable": true,
-						"filter": true,
-						"source": "ip"
+						"text": "commerce_department",
+						"source": "commerce_department",
+						"filter": true
+					}
+				]
+			},
+			"editExpand": {
+				"fields": [
+					{
+						"text": "address_city",
+						"source": "address_city"
 					},
 					{
-						"text": "price",
-						"sortable": true,
-						"filter": true,
-						"source": "price"
+						"text": "address_cityPrefix",
+						"source": "address_cityPrefix"
 					},
 					{
-						"text": "productName",
-						"sortable": true,
-						"filter": true,
-						"source": "productName"
+						"text": "address_country",
+						"source": "address_country"
 					},
 					{
-						"text": "color",
-						"sortable": true,
-						"filter": true,
-						"source": "color"
+						"text": "commerce_department",
+						"source": "commerce_department"
+					}
+				]
+			},
+			"showExpand": {
+				"fields": [
+					{
+						"text": "address_city",
+						"source": "address_city"
 					},
 					{
-						"text": "department",
-						"sortable": true,
-						"filter": true,
-						"source": "department"
+						"text": "address_cityPrefix",
+						"source": "address_cityPrefix"
+					},
+					{
+						"text": "address_country",
+						"source": "address_country"
+					},
+					{
+						"text": "commerce_department",
+						"source": "commerce_department"
+					}
+				]
+			}
+		},
+		{
+			"reference": "finance",
+			"list": {
+				"fields": [
+					{
+						"text": "finance_account",
+						"source": "finance_account",
+						"filter": true
+					},
+					{
+						"text": "finance_accountName",
+						"source": "finance_accountName",
+						"filter": true
+					},
+					{
+						"text": "finance_amount",
+						"source": "finance_amount",
+						"filter": true
+					},
+					{
+						"text": "finance_bitcoinAddress",
+						"source": "finance_bitcoinAddress",
+						"filter": true
+					}
+				]
+			},
+			"editExpand": {
+				"fields": [
+					{
+						"text": "finance_account",
+						"source": "finance_account"
+					},
+					{
+						"text": "finance_accountName",
+						"source": "finance_accountName"
+					},
+					{
+						"text": "finance_amount",
+						"source": "finance_amount"
+					},
+					{
+						"text": "finance_bitcoinAddress",
+						"source": "finance_bitcoinAddress"
+					}
+				]
+			},
+			"showExpand": {
+				"fields": [
+					{
+						"text": "finance_account",
+						"source": "finance_account"
+					},
+					{
+						"text": "finance_accountName",
+						"source": "finance_accountName"
+					},
+					{
+						"text": "finance_amount",
+						"source": "finance_amount"
+					},
+					{
+						"text": "finance_bitcoinAddress",
+						"source": "finance_bitcoinAddress"
+					}
+				]
+			}
+		},
+		{
+			"reference": "internet",
+			"list": {
+				"fields": [
+					{
+						"text": "internet_color",
+						"source": "internet_color",
+						"filter": true
+					},
+					{
+						"text": "internet_email",
+						"source": "internet_email",
+						"filter": true
+					},
+					{
+						"text": "internet_ip",
+						"source": "internet_ip",
+						"filter": true
+					},
+					{
+						"text": "internet_mac",
+						"source": "internet_mac",
+						"filter": true
+					},
+					{
+						"text": "internet_url",
+						"source": "internet_url",
+						"filter": true
+					}
+				]
+			},
+			"editExpand": {
+				"fields": [
+					{
+						"text": "internet_color",
+						"source": "internet_color"
+					},
+					{
+						"text": "internet_email",
+						"source": "internet_email"
+					},
+					{
+						"text": "internet_ip",
+						"source": "internet_ip"
+					},
+					{
+						"text": "internet_mac",
+						"source": "internet_mac"
+					},
+					{
+						"text": "internet_url",
+						"source": "internet_url"
+					}
+				]
+			},
+			"showExpand": {
+				"fields": [
+					{
+						"text": "internet_color",
+						"source": "internet_color"
+					},
+					{
+						"text": "internet_email",
+						"source": "internet_email"
+					},
+					{
+						"text": "internet_ip",
+						"source": "internet_ip"
+					},
+					{
+						"text": "internet_mac",
+						"source": "internet_mac"
+					},
+					{
+						"text": "internet_url",
+						"source": "internet_url"
 					}
 				]
 			}

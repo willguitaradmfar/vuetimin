@@ -17,7 +17,9 @@
                     <v-list-tile slot="activator">
                         <v-list-tile-content>
                             <v-list-tile-title>
+                              <router-link :to="item.to">
                                 {{ item.text }}
+                              </router-link>
                             </v-list-tile-title>
                         </v-list-tile-content>
                     </v-list-tile>
@@ -27,7 +29,9 @@
                         </v-list-tile-action>
                         <v-list-tile-content>
                             <v-list-tile-title>
-                                {{ child.text }}
+                                <router-link :to="item.to">
+                                {{ item.text }}
+                              </router-link>
                             </v-list-tile-title>
                         </v-list-tile-content>
                     </v-list-tile>
@@ -38,7 +42,9 @@
                     </v-list-tile-action>
                     <v-list-tile-content>
                         <v-list-tile-title>
-                            {{ item.text }}
+                            <router-link :to="item.to">
+                                {{ item.text }}
+                              </router-link>
                         </v-list-tile-title>
                     </v-list-tile-content>
                 </v-list-tile>
@@ -141,79 +147,17 @@ export default {
 
     this.$router.addRoutes(routes);
   },
-  data: () => ({
-    dialog: false,
-    drawer: null,
-    items: [
-      {
-        icon: "contacts",
-        text: "Contacts"
-      },
-      {
-        icon: "history",
-        text: "Frequently contacted"
-      },
-      {
+  data() {
+    return {
+      dialog: false,
+      drawer: null,
+      items: this.$attrs.resources.map(menu => ({
         icon: "content_copy",
-        text: "Duplicates"
-      },
-      {
-        icon: "keyboard_arrow_up",
-        "icon-alt": "keyboard_arrow_down",
-        text: "Labels",
-        model: true,
-        children: [
-          {
-            icon: "add",
-            text: "Create label"
-          }
-        ]
-      },
-      {
-        icon: "keyboard_arrow_up",
-        "icon-alt": "keyboard_arrow_down",
-        text: "More",
-        model: false,
-        children: [
-          {
-            text: "Import"
-          },
-          {
-            text: "Export"
-          },
-          {
-            text: "Print"
-          },
-          {
-            text: "Undo changes"
-          },
-          {
-            text: "Other contacts"
-          }
-        ]
-      },
-      {
-        icon: "settings",
-        text: "Settings"
-      },
-      {
-        icon: "chat_bubble",
-        text: "Send feedback"
-      },
-      {
-        icon: "help",
-        text: "Help"
-      },
-      {
-        icon: "phonelink",
-        text: "App downloads"
-      },
-      {
-        icon: "keyboard",
-        text: "Go to the old version"
-      }
-    ]
-  }),
+        text: menu.reference,
+        to: menu.reference
+      }))
+    };
+  },
   props: {
     source: String
   }

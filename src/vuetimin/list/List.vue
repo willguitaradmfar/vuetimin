@@ -205,6 +205,32 @@ export default {
   computed: {
     _new() {
       return this.new;
+    },
+    defaultChipsFilter() {
+      return [];
+    },
+    defaultPagination() {
+      return {
+        /**
+         * CURSOR DE PAGINAÇÃO
+         */
+        offset: 0,
+
+        /**
+         * TOTAL DE REGISTRO POR PÁGINA
+         */
+        rowsPerPage: 10,
+
+        /**
+         * COLUNA DE ORDENAÇÃO
+         */
+        sortBy: "",
+
+        /**
+         * SENTIDO DA ORDENAÇÃO
+         */
+        descending: true
+      };
     }
   },
   data() {
@@ -237,7 +263,7 @@ export default {
       /**
        * FILTRO SELECIONADO PELO USUÁROP
        */
-      chipsFilter: [],
+      chipsFilter: this.defaultChipsFilter,
 
       /**
        * CONTROLA SE O DATATABLE ESTÁ CARREGANDO
@@ -286,27 +312,7 @@ export default {
       /**
        * CONTROLE DE PAGINAÇÃO
        */
-      pagination: {
-        /**
-         * CURSOR DE PAGINAÇÃO
-         */
-        offset: 0,
-
-        /**
-         * TOTAL DE REGISTRO POR PÁGINA
-         */
-        rowsPerPage: 10,
-
-        /**
-         * COLUNA DE ORDENAÇÃO
-         */
-        sortBy: "",
-
-        /**
-         * SENTIDO DA ORDENAÇÃO
-         */
-        descending: true
-      }
+      pagination: this.defaultPagination
     };
   },
 
@@ -360,6 +366,8 @@ export default {
         })
       );
 
+      console.log(this.pagination);
+
       /**
        * BASE64
        */
@@ -384,13 +392,34 @@ export default {
      * RECUPERA O ESTADO DO FILTRO
      */
     getStateFilter() {
-      this.$data.chipsFilter = JSON.parse(
-        localStorage.getItem(`${this.reference}.list.filter`) || "[]"
-      );
+      const KEY_LIST_FILTER = `${this.reference}.list.filter`;
+      const KEY_LIST_PAGINATION = `${this.reference}.list.pagination`;
 
-      this.$data.pagination = JSON.parse(
-        localStorage.getItem(`${this.reference}.list.pagination`) || "{}"
-      );
+      if (localStorage.getItem(KEY_LIST_FILTER)) {
+        this.$data.chipsFilter = JSON.parse(
+          localStorage.getItem(KEY_LIST_FILTER) || "[]"
+        );
+      } else {
+        this.$data.chipsFilter = this.defaultChipsFilter;
+      }
+
+      if (localStorage.getItem(KEY_LIST_PAGINATION)) {
+        this.$data.pagination = JSON.parse(
+          localStorage.getItem(KEY_LIST_PAGINATION) || "{}"
+        );
+      } else {
+        this.$data.pagination = {
+          ...this.$data.pagination,
+          ...this.defaultPagination
+        };
+      }
+
+      if (
+        !localStorage.getItem(KEY_LIST_FILTER) ||
+        !localStorage.getItem(KEY_LIST_PAGINATION)
+      ) {
+        this.setStateFilter();
+      }
 
       if (this.$route.query && this.$route.query.stateURL) {
         /**
