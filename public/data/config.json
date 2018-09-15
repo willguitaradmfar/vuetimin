@@ -213,6 +213,165 @@
 					}
 				]
 			}
+		},
+		{
+			"reference": "system",
+			"list": {
+				"fields": [
+					{
+						"text": "system_commonFileExt",
+						"source": "system_commonFileExt",
+						"filter": true
+					},
+					{
+						"text": "system_fileType",
+						"source": "system_fileType",
+						"filter": true
+					},
+					{
+						"text": "system_commonFileType",
+						"source": "system_commonFileType",
+						"filter": true
+					},					
+					{
+						"text": "system_semver",
+						"source": "system_semver",
+						"filter": true
+					}
+				]
+			},
+			"new": {
+				"fields": [
+					{
+						"text": "system_commonFileExt",
+						"source": "system_commonFileExt"
+					},
+					{
+						"text": "system_commonFileName",
+						"source": "system_commonFileName"
+					},
+					{
+						"text": "system_commonFileType",
+						"source": "system_commonFileType"
+					},
+					{
+						"text": "system_directoryPath",
+						"source": "system_directoryPath"
+					},
+					{
+						"text": "system_fileExt",
+						"source": "system_fileExt"
+					},
+					{
+						"text": "system_fileName",
+						"source": "system_fileName"
+					},
+					{
+						"text": "system_filePath",
+						"source": "system_filePath"
+					},
+					{
+						"text": "system_fileType",
+						"source": "system_fileType"
+					},
+					{
+						"text": "system_mimeType",
+						"source": "system_mimeType"
+					},
+					{
+						"text": "system_semver",
+						"source": "system_semver"
+					}
+				]
+			},
+			"edit": {
+				"fields": [
+					{
+						"text": "system_commonFileExt",
+						"source": "system_commonFileExt"
+					},
+					{
+						"text": "system_commonFileName",
+						"source": "system_commonFileName"
+					},
+					{
+						"text": "system_commonFileType",
+						"source": "system_commonFileType"
+					},
+					{
+						"text": "system_directoryPath",
+						"source": "system_directoryPath"
+					},
+					{
+						"text": "system_fileExt",
+						"source": "system_fileExt"
+					},
+					{
+						"text": "system_fileName",
+						"source": "system_fileName"
+					},
+					{
+						"text": "system_filePath",
+						"source": "system_filePath"
+					},
+					{
+						"text": "system_fileType",
+						"source": "system_fileType"
+					},
+					{
+						"text": "system_mimeType",
+						"source": "system_mimeType"
+					},
+					{
+						"text": "system_semver",
+						"source": "system_semver"
+					}
+				]
+			},
+			"show": {
+				"fields": [
+					{
+						"text": "system_commonFileExt",
+						"source": "system_commonFileExt"
+					},
+					{
+						"text": "system_commonFileName",
+						"source": "system_commonFileName"
+					},
+					{
+						"text": "system_commonFileType",
+						"source": "system_commonFileType"
+					},
+					{
+						"text": "system_directoryPath",
+						"source": "system_directoryPath"
+					},
+					{
+						"text": "system_fileExt",
+						"source": "system_fileExt"
+					},
+					{
+						"text": "system_fileName",
+						"source": "system_fileName"
+					},
+					{
+						"text": "system_filePath",
+						"source": "system_filePath"
+					},
+					{
+						"text": "system_fileType",
+						"source": "system_fileType"
+					},
+					{
+						"text": "system_mimeType",
+						"source": "system_mimeType"
+					},
+					{
+						"text": "system_semver",
+						"source": "system_semver"
+					}
+				]
+			}
 		}
 	]
 }

@@ -66,8 +66,6 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <script>
-import axios from "axios";
-
 export default {
   props: [
     "show",

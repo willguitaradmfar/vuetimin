@@ -11,9 +11,13 @@
         </v-btn>
     </v-toolbar>
     <v-card-text>
-        <v-container>
-            <v-text-field :disabled="loading" v-for="item in localList.fields" v-bind:key="item.source" v-model="data[item.source]" :counter="10" :label="item.text" required></v-text-field>
-        </v-container>
+        <v-layout row wrap>
+          <v-flex v-for="item in localList.fields" v-bind:key="item.source">
+            <v-container>                
+                <Discovery :loading="loading" :data="data" :item="item" />
+            </v-container>
+          </v-flex>
+        </v-layout>
     </v-card-text>
     <v-divider></v-divider>
     <v-card-actions>
@@ -33,7 +37,8 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <script>
-import axios from "axios";
+
+import Discovery from "../fields/Discovery";
 
 export default {
     props: ["new", "dataSource", "reference"],
@@ -50,6 +55,9 @@ export default {
     }),
     created() {
         this.load();
+    },
+    components: {
+        Discovery
     },
     methods: {
         load() {
