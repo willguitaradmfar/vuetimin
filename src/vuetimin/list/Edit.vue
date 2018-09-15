@@ -13,10 +13,14 @@
             <v-icon>close</v-icon>
         </v-btn>
     </v-toolbar>
-    <v-card-text>
-        <v-container>
-            <v-text-field :disabled="loading || lock" v-for="item in localList.fields" v-bind:key="item.source" v-model="data[item.source]" :counter="10" :label="item.text" required></v-text-field>
-        </v-container>
+    <v-card-text>      
+      <v-layout row wrap>
+          <v-flex v-for="item in localList.fields" v-bind:key="item.source">
+            <v-container>
+              <v-text-field :disabled="loading || lock" v-model="data[item.source]" :counter="10" :label="item.text" required></v-text-field>
+            </v-container>
+          </v-flex>
+      </v-layout>        
     </v-card-text>
     <v-divider></v-divider>
     <v-card-actions>
@@ -39,7 +43,16 @@
 import axios from "axios";
 
 export default {
-  props: ["list", "edit", "show", "params", "dataSource", "reference", "closeFn", "showFn"],
+  props: [
+    "list",
+    "edit",
+    "show",
+    "params",
+    "dataSource",
+    "reference",
+    "closeFn",
+    "showFn"
+  ],
   watch: {},
   data: () => ({
     snackbarText: "",
@@ -93,7 +106,7 @@ export default {
             acc[item.source] = this.data[item.source];
             return acc;
           }, {}),
-          id: this.id
+          id: this.$route.params.id || this.params.id
         },
         (err, response) => {
           if (err) {
@@ -104,7 +117,9 @@ export default {
           if (this.showFn) {
             this.showFn();
           } else {
-            this.$router.push(`/${this.reference}/${this.$route.params.id}/show`);
+            this.$router.push(
+              `/${this.reference}/${this.$route.params.id}/show`
+            );
           }
         }
       );

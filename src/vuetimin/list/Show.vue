@@ -39,10 +39,14 @@
             <v-icon>delete</v-icon>
         </v-btn>
     </v-toolbar>
-    <v-card-text>
-        <v-container>
-            <v-text-field :disabled="true" v-for="item in localList.fields" v-bind:key="item.source" v-model="data[item.source]" :counter="10" :label="item.text" required></v-text-field>
-        </v-container>
+    <v-card-text>        
+      <v-layout row wrap>
+        <v-flex v-for="item in localList.fields" v-bind:key="item.source">
+          <v-container>
+            <v-text-field :disabled="true" v-model="data[item.source]" :label="item.text"></v-text-field>
+          </v-container>
+        </v-flex>
+      </v-layout>        
     </v-card-text>
     <v-divider></v-divider>
     <v-card-actions>

@@ -6,6 +6,20 @@
 				"text": "Mimi",
 				"source": "firstName",
 				"filter": true
+			},{
+				"text": "email",
+				"source": "email",
+				"filter": true
+			},
+			{
+				"text": "Mac",
+				"source": "mac",
+				"filter": true
+			},
+			{
+				"text": "IP",
+				"source": "ip",
+				"filter": true
 			}]
 		},
 		"editExpand": {
