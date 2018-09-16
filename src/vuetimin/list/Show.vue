@@ -41,10 +41,8 @@
     </v-toolbar>
     <v-card-text>        
       <v-layout row wrap>
-        <v-flex v-for="item in localList.fields" v-bind:key="item.source">
-          <v-container>
-            <v-text-field :disabled="true" v-model="data[item.source]" :label="item.text"></v-text-field>
-          </v-container>
+        <v-flex v-for="item in localList.fields" v-bind:key="item.source">          
+            <Discovery :data="data" :item="item" :disabled="true" />
         </v-flex>
       </v-layout>        
     </v-card-text>
@@ -66,6 +64,8 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <script>
+import Discovery from "../fields/Discovery";
+
 export default {
   props: [
     "show",
@@ -89,6 +89,9 @@ export default {
       fields: []
     }
   }),
+  components:{
+    Discovery
+  },
   created() {
     this.load();
   },

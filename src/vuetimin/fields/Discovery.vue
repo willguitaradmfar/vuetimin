@@ -1,10 +1,21 @@
-<template>
-    <v-text-field :disabled="loading" v-model="data[item.source]" :counter="10" :label="item.text" required="true"></v-text-field>
+<template> 
+    <v-container>
+         <DateDiscovery :data="data" :item="item" :disabled="disabled" v-if="item.reference && item.reference.type === 'date'"/>
+         <TextDiscovery :data="data" :item="item" :disabled="disabled" v-else/>
+    </v-container>
 </template>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <script>
+import moment from "moment";
+
+import DateDiscovery from "./DateDiscovery";
+import TextDiscovery from "./TextDiscovery";
+
 export default {
-  props: ["loading", "data", "item"]
+  props: ["data", "item", "disabled"],
+  components: {
+    DateDiscovery,
+    TextDiscovery
+  }
 };
 </script>

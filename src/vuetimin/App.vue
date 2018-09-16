@@ -154,7 +154,7 @@ export default {
       items: this.$attrs.resources.map(menu => ({
         icon: "content_copy",
         text: menu.reference,
-        to: menu.reference
+        to: `/${menu.reference}`
       }))
     };
   },

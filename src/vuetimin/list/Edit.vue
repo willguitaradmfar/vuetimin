@@ -15,10 +15,8 @@
     </v-toolbar>
     <v-card-text>      
       <v-layout row wrap>
-          <v-flex v-for="item in localList.fields" v-bind:key="item.source">
-            <v-container>
-              <v-text-field :disabled="loading || lock" v-model="data[item.source]" :counter="10" :label="item.text" required></v-text-field>
-            </v-container>
+          <v-flex v-for="item in localList.fields" v-bind:key="item.source">            
+              <Discovery :data="data" :item="item" :disabled="loading || lock" />
           </v-flex>
       </v-layout>        
     </v-card-text>
@@ -41,6 +39,8 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <script>
 
+import Discovery from "../fields/Discovery";
+
 export default {
   props: [
     "list",
@@ -52,7 +52,9 @@ export default {
     "closeFn",
     "showFn"
   ],
-  watch: {},
+  components:{
+    Discovery
+  },
   data: () => ({
     snackbarText: "",
     snackbar: false,

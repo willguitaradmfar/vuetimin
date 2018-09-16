@@ -12,10 +12,8 @@
     </v-toolbar>
     <v-card-text>
         <v-layout row wrap>
-          <v-flex v-for="item in localList.fields" v-bind:key="item.source">
-            <v-container>                
-                <Discovery :loading="loading" :data="data" :item="item" />
-            </v-container>
+          <v-flex v-for="item in localList.fields" v-bind:key="item.source">            
+                <Discovery :loading="loading" :data="data" :item="item" />            
           </v-flex>
         </v-layout>
     </v-card-text>
@@ -37,58 +35,63 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <script>
-
 import Discovery from "../fields/Discovery";
 
 export default {
-    props: ["new", "dataSource", "reference"],
-    watch: {},
-    data: () => ({
-        snackbarText: '',
-        snackbar: false,
-        data: {},
-        loading: false,
-        datasource: null,
-        localList: {
-            fields: []
-        }
-    }),
-    created() {
-        this.load();
-    },
-    components: {
-        Discovery
-    },
-    methods: {
-        load() {
-
-            this.$data.datasource = this.dataSource();
-
-            this.$data.localList.fields = this.new.fields.map(field => ({
-                ...field,
-                value: field.source
-            }));
-
-        },
-        save() {
-            this.$data.loading = true;
-            this.datasource.CREATE(
-                this.reference, {
-                    data: this.localList.fields.reduce((acc, item) => {
-                        acc[item.source] = this.data[item.source];
-                        return acc;
-                    }, {})
-                },
-                (err, response) => {
-                    if (err) {
-                        this.$data.snackbarText = err.message
-                        this.$data.loading = false
-                        return this.$data.snackbar = true
-                    }
-                    this.$router.push(`/${this.reference}/${response.id}/show`);
-                }
-            );
-        }
+  props: ["new", "dataSource", "reference"],
+  watch: {},
+  data: () => ({
+    snackbarText: "",
+    snackbar: false,
+    data: {},
+    loading: false,
+    datasource: null,
+    localList: {
+      fields: []
     }
+  }),
+  created() {
+    this.load();
+  },
+  components: {
+    Discovery
+  },
+  methods: {
+    load() {
+      this.$data.datasource = this.dataSource();
+
+      /**
+       * INICIALIZAÇÃO DOS DADOS
+       */
+      for(let field of this.new.fields){
+          this.$data.data[field.source] = undefined
+      }
+
+      this.$data.localList.fields = this.new.fields.map(field => ({
+        ...field,
+        value: field.source
+      }));
+    },
+    save() {
+      this.$data.loading = true;
+      this.datasource.CREATE(
+        this.reference,
+        {
+          data: this.localList.fields.reduce((acc, item) => {
+            acc[item.source] = this.data[item.source];
+            return acc;
+          }, {})
+        },
+        (err, response) => {
+          if (err) {
+            this.$data.snackbarText = err.message;
+            this.$data.loading = false;
+            return (this.$data.snackbar = true);
+          }
+          this.$router.push(`/${this.reference}/${response.id}/show`);
+        }
+      );
+    }
+  }
 };
 </script>
