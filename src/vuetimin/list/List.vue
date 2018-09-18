@@ -50,8 +50,8 @@
             <v-progress-linear slot="progress" height="2" indeterminate></v-progress-linear>
             <template slot="headerCell" slot-scope="props">
                 <v-tooltip bottom>
-                    <span slot="activator">{{ props.header.text }}</span>
-                    <span>{{ props.header.text }}</span>
+                    <span slot="activator">{{ props.header.text || props.header.source }}</span>
+                    <span>{{ props.header.text || props.header.source }}</span>
                 </v-tooltip>
             </template>
 
@@ -60,7 +60,10 @@
                     <v-checkbox v-model="props.selected" primary hide-details></v-checkbox>
                 </td>
 
-                <td v-for="item in localList.fields" v-bind:key="item.source" v-if="item.value !== 'action'">{{ props.item[item.source] }}</td>
+                <td v-for="item in localList.fields" v-bind:key="item.source" v-if="item.value !== 'action'">
+                  
+                  <DiscoveryField :item="item" :data="props.item" ></DiscoveryField>
+                </td>
 
                 <td>
                     <router-link :to="'/' + reference + '/' + props.item.id + '/edit'" tag="button" v-if="edit">
@@ -133,6 +136,7 @@
 <script>
 import Show from "./Show";
 import Edit from "./Edit";
+import DiscoveryField from "../discovery/fields/DiscoveryField";
 
 export default {
   watch: {
@@ -318,7 +322,8 @@ export default {
 
   components: {
     Show,
-    Edit
+    Edit,
+    DiscoveryField
   },
 
   methods: {

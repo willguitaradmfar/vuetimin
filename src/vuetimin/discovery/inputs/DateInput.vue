@@ -70,9 +70,9 @@ export default {
   },
   data(){
     return {
-      hint: 'DD/MM/YYYY',
-      regexHint: /^\d{2}\/\d{2}\/\d{4}$/,
-      mask: '##/##/####'
+      hint: this.item.reference && this.item.reference.hint ? this.item.reference.hint :  'DD/MM/YYYY',
+      regexHint: this.item.reference && this.item.reference.regexHint ? this.item.reference.regexHint :  /^\d{2}\/\d{2}\/\d{4}$/,
+      mask: this.item.reference && this.item.reference.mask ? this.item.reference.mask :  '##/##/####'
     }
   }
 };

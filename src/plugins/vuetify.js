@@ -28,6 +28,7 @@ import {
   VCombobox,
   VChip,
   VDatePicker,
+  VTimePicker,
   VMenu,
   VExpansionPanel
   
@@ -63,6 +64,7 @@ Vue.use(Vuetify, {
     VCombobox,
     VChip,
     VDatePicker,
+    VTimePicker,
     VMenu,
     VExpansionPanel
     

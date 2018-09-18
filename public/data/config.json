@@ -94,7 +94,10 @@
 					{
 						
 						"source": "finance_amount",
-						"filter": true
+						"filter": true,
+						"reference": {
+							"type": "currency"
+						}
 					},
 					{
 						
@@ -156,7 +159,10 @@
 					{
 						
 						"source": "internet_email",
-						"filter": true
+						"filter": true,
+						"reference": {
+							"type": "email"
+						}
 					},
 					{
 						
@@ -168,10 +174,12 @@
 						"source": "internet_mac",
 						"filter": true
 					},
-					{
-						
+					{						
 						"source": "internet_url",
-						"filter": true
+						"filter": true,
+						"reference": {
+							"type": "link"
+						}
 					}
 				]
 			},
@@ -248,10 +256,25 @@
 						"source": "system_semver",
 						"filter": true
 					},
-					{						
+					{				
+						"text": "Data de Nasc.",
 						"source": "date_future",
 						"reference": {
 							"type": "date"
+						}
+					},
+					{						
+						"text": "Data de Nasc.1",
+						"source": "date_future",
+						"reference": {
+							"type": "datetime"
+						}
+					},
+					{						
+						"text": "Data de Nasc.2",
+						"source": "date_future",
+						"reference": {
+							"type": "time"
 						}
 					}
 				]
@@ -299,6 +322,7 @@
 						"source": "system_semver"
 					},
 					{						
+						"text": "Data de Nasc.",
 						"source": "date_future",
 						"reference": {
 							"type": "date"
@@ -348,11 +372,12 @@
 						
 						"source": "system_semver"
 					},
-					{
-						
+					
+					{						
+						"text": "Data de Nasc.2",
 						"source": "date_future",
 						"reference": {
-							"type": "date"
+							"type": "time"
 						}
 					}
 					

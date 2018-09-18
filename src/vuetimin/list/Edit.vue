@@ -1,45 +1,45 @@
 <template>
-<v-card>
-    <v-toolbar card>
-        <v-btn color="info" fab small :to="'/' + reference" v-if="list">
-            <v-icon>reply</v-icon>
-        </v-btn>
-        <v-toolbar-title>{{reference}} #{{ $route.params.id || params.id }}</v-toolbar-title>
-        <v-spacer></v-spacer>
-        <v-btn color="white" :to="'/' + reference + '/' + $route.params.id + '/show'" fab small  v-if="show && !closeFn">
-            <v-icon>close</v-icon>
-        </v-btn>
-        <v-btn color="white" @click="closeFn()" fab small  v-if="show && closeFn">
-            <v-icon>close</v-icon>
-        </v-btn>
-    </v-toolbar>
-    <v-card-text>      
-      <v-layout row wrap>
-          <v-flex v-for="item in localList.fields" v-bind:key="item.source">            
-              <Discovery :data="data" :item="item" :disabled="loading || lock" />
-          </v-flex>
-      </v-layout>        
-    </v-card-text>
-    <v-divider></v-divider>
-    <v-card-actions>
-        <v-spacer></v-spacer>
-        <v-btn :loading="loading" color="success" @click="save">
-            Save
-        </v-btn>
-    </v-card-actions>
-    <v-snackbar v-model="snackbar" color="error" :bottom="true" :multi-line="true" :timeout="7000">
-        {{ snackbarText }}
-        <v-btn color="white" flat @click="snackbar = false">
-            Close
-        </v-btn>
-    </v-snackbar>
-</v-card>
+  <v-card>
+      <v-toolbar card>
+          <v-btn color="info" fab small :to="'/' + reference" v-if="list">
+              <v-icon>reply</v-icon>
+          </v-btn>
+          <v-toolbar-title>{{reference}} #{{ $route.params.id || params.id }}</v-toolbar-title>
+          <v-spacer></v-spacer>
+          <v-btn color="white" :to="'/' + reference + '/' + $route.params.id + '/show'" fab small  v-if="show && !closeFn">
+              <v-icon>close</v-icon>
+          </v-btn>
+          <v-btn color="white" @click="closeFn()" fab small  v-if="show && closeFn">
+              <v-icon>close</v-icon>
+          </v-btn>
+      </v-toolbar>
+      <v-card-text>      
+        <v-layout row wrap>
+            <v-flex v-for="item in localList.fields" v-bind:key="item.source">            
+                <DiscoveryInput :data="data" :item="item" :disabled="loading || lock" />
+            </v-flex>
+        </v-layout>        
+      </v-card-text>
+      <v-divider></v-divider>
+      <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn :loading="loading" color="success" @click="save">
+              Save
+          </v-btn>
+      </v-card-actions>
+      <v-snackbar v-model="snackbar" color="error" :bottom="true" :multi-line="true" :timeout="7000">
+          {{ snackbarText }}
+          <v-btn color="white" flat @click="snackbar = false">
+              Close
+          </v-btn>
+      </v-snackbar>
+  </v-card>
 </template>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <script>
 
-import Discovery from "../fields/Discovery";
+import DiscoveryInput from "../discovery/inputs/DiscoveryInput";
 
 export default {
   props: [
@@ -53,7 +53,7 @@ export default {
     "showFn"
   ],
   components:{
-    Discovery
+    DiscoveryInput
   },
   data: () => ({
     snackbarText: "",
