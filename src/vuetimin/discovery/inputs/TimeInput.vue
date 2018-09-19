@@ -20,7 +20,7 @@
                 :return-masked-value="true"
                 :disabled="disabled"
                 ></v-text-field>
-            <v-time-picker v-model="date" v-if="!disabled">
+            <v-time-picker v-model="date" v-if="!disabled" format="24hr">
                 <v-btn flat color="primary" @click="$refs.menu.save(date)">OK</v-btn>
             </v-time-picker>
       </v-menu> 
@@ -42,7 +42,7 @@ export default {
       set(value){
         console.log('set', value);
         
-        this.data[this.item.source] = value
+        this.data[this.item.source] = moment(value, 'HH:mm')._d
       }
     },
     dateFormatted: {
@@ -60,7 +60,7 @@ export default {
 
         if(!this.regexHint.test(value)) return
         
-        const date = moment(`1700-01-01 ${value}`, 'YYYY-MM-DD HH:mm')        
+        const date = moment(value, 'HH:mm')        
 
         if(date._d.toString() === 'Invalid date') return
 

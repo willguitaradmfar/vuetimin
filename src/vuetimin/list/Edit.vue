@@ -15,7 +15,7 @@
       </v-toolbar>
       <v-card-text>      
         <v-layout row wrap>
-            <v-flex v-for="item in localList.fields" v-bind:key="item.source">            
+            <v-flex v-for="item in localList.fields" v-bind:key="item.source"> 
                 <DiscoveryInput :data="data" :item="item" :disabled="loading || lock" />
             </v-flex>
         </v-layout>        

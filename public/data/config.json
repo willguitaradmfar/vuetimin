@@ -123,6 +123,14 @@
 					{
 						
 						"source": "finance_bitcoinAddress"
+					},
+					
+					{						
+						"text": "Data de Nasc.3",
+						"source": "date_future",
+						"reference": {
+							"type": "time"
+						}
 					}
 				]
 			},
@@ -204,6 +212,14 @@
 					{
 						
 						"source": "internet_url"
+					},
+					
+					{						
+						"text": "Data de Nasc.3",
+						"source": "date_future",
+						"reference": {
+							"type": "datetime"
+						}
 					}
 				]
 			},
@@ -374,10 +390,10 @@
 					},
 					
 					{						
-						"text": "Data de Nasc.2",
+						"text": "Data de Nasc.3",
 						"source": "date_future",
 						"reference": {
-							"type": "time"
+							"type": "datetime"
 						}
 					}
 					

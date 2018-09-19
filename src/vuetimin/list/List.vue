@@ -60,8 +60,7 @@
                     <v-checkbox v-model="props.selected" primary hide-details></v-checkbox>
                 </td>
 
-                <td v-for="item in localList.fields" v-bind:key="item.source" v-if="item.value !== 'action'">
-                  
+                <td v-for="item in localList.fields" v-bind:key="item.text || item.source" v-if="item.value !== 'action'">
                   <DiscoveryField :item="item" :data="props.item" ></DiscoveryField>
                 </td>
 
