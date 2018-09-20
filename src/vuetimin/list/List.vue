@@ -3,7 +3,8 @@
     <v-dialog v-model="dialogFilter.open" width="300">
         <v-card>
             <v-card-text>
-                <v-text-field :autofocus="true" v-model="dialogFilter.field.search" @keyup.enter="okDialogFilter" prepend-icon="filter_list" :label="dialogFilter.field ? dialogFilter.field.text : ''"></v-text-field>
+                <!-- <v-text-field :autofocus="true" v-model="dialogFilter.field.search" @keyup.enter="okDialogFilter" prepend-icon="filter_list" :label="dialogFilter.field ? dialogFilter.field.text || dialogFilter.field.source : ''"></v-text-field> -->
+              <DiscoveryFilter @enter="okDialogFilter" :item="dialogFilter.field" :data="dialogFilter.field" ></DiscoveryFilter>
             </v-card-text>
         </v-card>
     </v-dialog>
@@ -136,6 +137,7 @@
 import Show from "./Show";
 import Edit from "./Edit";
 import DiscoveryField from "../discovery/fields/DiscoveryField";
+import DiscoveryFilter from "../discovery/filters/DiscoveryFilter";
 
 export default {
   watch: {
@@ -322,7 +324,8 @@ export default {
   components: {
     Show,
     Edit,
-    DiscoveryField
+    DiscoveryField,
+    DiscoveryFilter
   },
 
   methods: {

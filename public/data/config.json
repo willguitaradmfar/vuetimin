@@ -275,6 +275,7 @@
 					{				
 						"text": "Data de Nasc.",
 						"source": "date_future",
+						"filter": true,
 						"reference": {
 							"type": "date"
 						}
@@ -282,6 +283,7 @@
 					{						
 						"text": "Data de Nasc.1",
 						"source": "date_future",
+						"filter": true,
 						"reference": {
 							"type": "datetime"
 						}
@@ -289,6 +291,7 @@
 					{						
 						"text": "Data de Nasc.2",
 						"source": "date_future",
+						"filter": true,
 						"reference": {
 							"type": "time"
 						}

@@ -49,7 +49,7 @@ export default {
       get() {
         console.log("get", `${this.dateSelected} ${this.timeSelected}`);
 
-        return moment(this.data[this.item.source]).format('YYYY-MM-DD')
+        return moment(this.data.search).format('YYYY-MM-DD')
       },
       set(value) {
 
@@ -59,14 +59,14 @@ export default {
         
         console.log("set", value, `${this.dateSelected} ${this.timeSelected}`);  
 
-        this.data[this.item.source] = moment(`${this.dateSelected} ${this.timeSelected}`, 'YYYY-MM-DD HH:mm').format('YYYY-MM-DD HH:mm');
+        this.data.search = moment(`${this.dateSelected} ${this.timeSelected}`, 'YYYY-MM-DD HH:mm').format('YYYY-MM-DD HH:mm');
       }
     },
     time: {
       get() {
         console.log("get", `${this.dateSelected} ${this.timeSelected}`);
 
-        return moment(this.data[this.item.source]).format('HH:mm')
+        return moment(this.data.search).format('HH:mm')
       },
       set(value) {      
 
@@ -76,7 +76,7 @@ export default {
         
         console.log("set", value, `${this.dateSelected} ${this.timeSelected}`);  
 
-        this.data[this.item.source] = moment(`${this.dateSelected} ${this.timeSelected}`, 'YYYY-MM-DD HH:mm').format('YYYY-MM-DD HH:mm');
+        this.data.search = moment(`${this.dateSelected} ${this.timeSelected}`, 'YYYY-MM-DD HH:mm').format('YYYY-MM-DD HH:mm');
       }
     },
     dateFormatted: {
