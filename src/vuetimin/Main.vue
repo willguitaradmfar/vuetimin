@@ -1,25 +1,33 @@
 <template>
-<Admin v-if="metadata.length" />
+<Admin v-if='metadata.length' />
 </template>
 <script>
-import Admin from "./Admin";
+import Admin from './Admin';
 
 import { mapActions } from 'vuex';
 
+import store from './store';
+
 export default {
+  beforeCreate() {
+    this.$store.registerModule('vuetimin', {
+      namespaced: true,
+      ...store
+    });
+  },
 
   async created() {
-    this.makeCRUD()
-    await this.$store.dispatch('getResources')
+    this.makeCRUD();
+    await this.getResources();
   },
 
   methods: {
-    ...mapActions(['makeCRUD'])    
+    ...mapActions('vuetimin', ['makeCRUD', 'getResources'])
   },
 
   computed: {
-    metadata(){
-      return this.$store.state.metadata
+    metadata() {
+      return this.$store.state.vuetimin.metadata;
     },
     Homee() {
       return this.Home;

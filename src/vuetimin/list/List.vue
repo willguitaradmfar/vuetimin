@@ -211,7 +211,7 @@ export default {
       return this.new;
     },
     CRUD() {
-      return this.$store.state.CRUD;
+      return this.$store.state.vuetimin.CRUD;
     },
     defaultChipsFilter() {
       return [];

@@ -24,11 +24,11 @@ export default {
     }   
   },
   methods: {
-    ...mapActions(['auth'])
+    ...mapActions('vuetimin', ['auth'])
   },
   computed: {
     needAuth() {
-      return this.$store.state.needAuth
+      return this.$store.state.vuetimin.needAuth
     }
   },
   data() {

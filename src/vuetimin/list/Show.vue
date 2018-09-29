@@ -78,7 +78,7 @@ export default {
   ],
   computed: {
     CRUD() {
-      return this.$store.state.CRUD;
+      return this.$store.state.vuetimin.CRUD;
     }
   },
   data: () => ({

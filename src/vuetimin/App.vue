@@ -94,7 +94,7 @@ export default {
   name: "App",
   computed: {
     metadata() {
-      return this.$store.state.metadata;
+      return this.$store.state.vuetimin.metadata;
     },
     items() {
       return this.metadata.map(menu => ({
@@ -156,7 +156,7 @@ export default {
     this.$router.addRoutes(routes);
 
     for (let metadata of this.metadata) {
-      this.$store.registerModule(metadata.reference, {
+      this.$store.vuetimin.registerModule(metadata.reference, {
         namespaced: true,
         state() {
           return {
