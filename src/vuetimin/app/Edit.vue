@@ -47,7 +47,6 @@ export default {
     "edit",
     "show",
     "params",
-    "dataSource",
     "reference",
     "closeFn",
     "showFn"

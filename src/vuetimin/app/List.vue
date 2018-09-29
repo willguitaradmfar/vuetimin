@@ -302,11 +302,6 @@ export default {
       selected: [],
 
       /**
-       * OBJETO DE DAO, DATA ACCESS OBJECT
-       */
-      datasource: null,
-
-      /**
        * TOTAL DE REGISTRO
        */
       total: 10,
@@ -346,7 +341,6 @@ export default {
         value: field.source
       }));
 
-      this.$data.datasource = this.CRUD;
       this.$data.localListFilter.fields = this.$data.localList.fields.filter(
         field => !!field.filter
       );
@@ -497,7 +491,7 @@ export default {
       this.$data.loadTimeout = setTimeout(() => {
         this.$data.loading = true;
 
-        this.datasource.GET_LIST(
+        this.CRUD.GET_LIST(
           this.reference,
           {
             ...this.$data.pagination,

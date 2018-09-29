@@ -38,7 +38,7 @@
 import DiscoveryInput from "../discovery/inputs/DiscoveryInput";
 
 export default {
-  props: ["new", "dataSource", "reference"],
+  props: ["new", "reference"],
   watch: {},
   data: () => ({
     snackbarText: "",

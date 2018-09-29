@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import App from "./app/Main";
+import App from "./app/App";
 import Login from "./login/Login";
 
 import { mapActions } from 'vuex';

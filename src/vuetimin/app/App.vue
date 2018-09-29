@@ -154,7 +154,7 @@ export default {
     this.$router.addRoutes(routes);
 
     for (let metadata of this.metadata) {
-      this.$store.state.vuetimin.registerModule(metadata.reference, {
+      this.$store.registerModule(metadata.reference, {
         namespaced: true,
         state() {
           return {
