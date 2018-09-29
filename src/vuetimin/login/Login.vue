@@ -17,7 +17,7 @@
               </v-card-text>
               <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn color="primary" @click="$attrs.authHandler({username, password})">Login</v-btn>
+                <v-btn color="primary" @click="auth({username, password})">Login</v-btn>
               </v-card-actions>
             </v-card>
           </v-flex>
@@ -28,6 +28,9 @@
 </template>
 
 <script>
+
+import { mapActions } from 'vuex';
+
 export default {
   name: 'Login',
   data: () => ({
@@ -35,7 +38,9 @@ export default {
     username: null, 
     password: null
   }),
-
+  methods: {
+    ...mapActions('vuetimin', ['auth'])
+  },
   props: {
     source: String
   }

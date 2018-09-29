@@ -80,15 +80,13 @@
 </template>
 
 <script>
-import List from "./list/List";
+import List from "./List";
 
-import Show from "./list/Show";
+import Show from "./Show";
 
-import Edit from "./list/Edit";
+import Edit from "./Edit";
 
-import New from "./list/New";
-
-import About from "../views/About.vue";
+import New from "./New";
 
 export default {
   name: "App",
@@ -156,7 +154,7 @@ export default {
     this.$router.addRoutes(routes);
 
     for (let metadata of this.metadata) {
-      this.$store.vuetimin.registerModule(metadata.reference, {
+      this.$store.state.vuetimin.registerModule(metadata.reference, {
         namespaced: true,
         state() {
           return {
