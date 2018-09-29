@@ -45,7 +45,6 @@ export default {
     snackbar: false,
     data: {},
     loading: false,
-    datasource: null,
     localList: {
       fields: []
     }
@@ -53,12 +52,16 @@ export default {
   created() {
     this.load();
   },
+  computed:{
+    CRUD() {
+      return this.$store.state.CRUD;
+    }
+  },
   components: {
     DiscoveryInput
   },
   methods: {
     load() {
-      this.$data.datasource = this.dataSource();
 
       /**
        * INICIALIZAÇÃO DOS DADOS
@@ -74,7 +77,7 @@ export default {
     },
     save() {
       this.$data.loading = true;
-      this.datasource.CREATE(
+      this.CRUD.CREATE(
         this.reference,
         {
           data: this.localList.fields.reduce((acc, item) => {

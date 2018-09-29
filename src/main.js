@@ -1,14 +1,14 @@
 import '@babel/polyfill'
 import Vue from 'vue'
 import './plugins/vuetify'
-//import store from './store'
+import store from './store'
 import router from './router'
-import Main from './Main.vue'
+import Main from './vuetimin/Main.vue'
 
 Vue.config.productionTip = false
 
 new Vue({
-  //store,
+  store,
   router,
   render: h => h(Main)
 }).$mount('#app')

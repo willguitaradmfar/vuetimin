@@ -52,6 +52,11 @@ export default {
     "closeFn",
     "showFn"
   ],
+  computed:{
+    CRUD() {
+      return this.$store.state.CRUD;
+    }
+  },
   components:{
     DiscoveryInput
   },
@@ -60,7 +65,6 @@ export default {
     snackbar: false,
     data: {},
     loading: true,
-    datasource: null,
     lock: false,
     localList: {
       fields: []
@@ -71,8 +75,6 @@ export default {
   },
   methods: {
     load() {
-      this.$data.datasource = this.dataSource();
-
       this.$data.localList.fields = this.edit.fields.map(field => ({
         ...field,
         value: field.source
@@ -80,7 +82,7 @@ export default {
 
       this.$data.loading = true;
 
-      this.datasource.GET_ONE(
+      this.CRUD.GET_ONE(
         this.reference,
         {
           ...(this.params || this.$route.params)
@@ -100,7 +102,7 @@ export default {
     },
     save() {
       this.$data.loading = true;
-      this.datasource.UPDATE(
+      this.CRUD.UPDATE(
         this.reference,
         {
           data: this.localList.fields.reduce((acc, item) => {

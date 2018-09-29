@@ -3,16 +3,18 @@
     <v-dialog v-model="dialogFilter.open" width="300">
         <v-card>
             <v-card-text>
-                <!-- <v-text-field :autofocus="true" v-model="dialogFilter.field.search" @keyup.enter="okDialogFilter" prepend-icon="filter_list" :label="dialogFilter.field ? dialogFilter.field.text || dialogFilter.field.source : ''"></v-text-field> -->
-              <DiscoveryFilter @enter="okDialogFilter" :item="dialogFilter.field" :data="dialogFilter.field" ></DiscoveryFilter>
+              <DiscoveryFilter @enter="okDialogFilter" :options="dialogFilter.field" :data="dialogFilter.field" ></DiscoveryFilter>
             </v-card-text>
+            <v-btn flat color="primary" @click="okDialogFilter">OK</v-btn>
         </v-card>
     </v-dialog>
+
+    
     <v-toolbar card>
         <v-btn color="info" fab small :to="'/' + reference" @click="hasFilter = !hasFilter">
             <v-icon>filter_list</v-icon>
         </v-btn>
-        <v-toolbar-title>{{true}}</v-toolbar-title>
+        <v-toolbar-title>{{reference}}</v-toolbar-title>
         <v-spacer></v-spacer>
         <v-btn color="primary" :to="'/' + reference + '/new'" fab small v-if="_new">
             <v-icon>add</v-icon>
@@ -23,31 +25,31 @@
     </v-toolbar>
 
     <v-toolbar v-if="hasFilter" card>
-        <v-combobox v-model="chipsFilter" @input="openFilter" :items="localListFilter.fields"  :autofocus="true" label="Filter" hide-selected chips clearable solo multiple>
+        <v-combobox v-model="chipsFilter" @input="openFilter" :optionss="localListFilter.fields" :autofocus="true" label="Filter" hide-selected chips clearable solo multiple>
             <template slot="selection" slot-scope="data">
                 <v-chip 
                 :selected="data.selected"
                 close
-                @input="removeItemFilter(data.item)">
+                @input="removeoptionsFilter(data.options)">
                     <v-avatar color="info">
-                        <v-btn color="warning" fab small :style="{ cursor: 'pointer'}" @click="openFilter(data.item)">
+                        <v-btn color="warning" fab small :style="{ cursor: 'pointer'}" @click="openFilter(data.options)">
                             <v-icon color="white" :style="{ cursor: 'pointer'}">create</v-icon>
                         </v-btn>
                     </v-avatar>
-                    <strong>{{ data.item.text || data.item.source }}</strong> 
-                    <span v-if="data.item.search">({{ data.item.search }})</span>
+                    <strong>{{ data.options.text || data.options.source }}</strong> 
+                    <span v-if="data.options.search">({{ data.options.search }})</span>
                 </v-chip>
             </template>
 
-            <template slot="item" slot-scope="{ index, item, parent }">
-                {{item.text || item.source}} 
-                <span v-if="item.search">({{ item.search }})</span>
+            <template slot="options" slot-scope="{ index, options, parent }">
+                {{options.text || options.source}} 
+                <span v-if="options.search">({{ options.search }})</span>
             </template>
         </v-combobox>
     </v-toolbar>
 
     <v-card-text>
-        <v-data-table :pagination.sync="pagination" :total-items="total" :headers="localList.fields" :items="dataList" :loading="loading" select-all v-model="selected" item-key="id" class="elevation-1">
+        <v-data-table :pagination.sync="pagination" :total-optionss="total" :headers="localList.fields" :optionss="dataList" :loading="loading" select-all v-model="selected" options-key="id" class="elevation-1">
             <v-progress-linear slot="progress" height="2" indeterminate></v-progress-linear>
             <template slot="headerCell" slot-scope="props">
                 <v-tooltip bottom>
@@ -56,20 +58,20 @@
                 </v-tooltip>
             </template>
 
-            <template slot="items" slot-scope="props">
+            <template slot="optionss" slot-scope="props">
                 <td>
                     <v-checkbox v-model="props.selected" primary hide-details></v-checkbox>
                 </td>
 
-                <td v-for="item in localList.fields" v-bind:key="item.text || item.source" v-if="item.value !== 'action'">
-                  <DiscoveryField :item="item" :data="props.item" ></DiscoveryField>
+                <td v-for="options in localList.fields" v-bind:key="options.text || options.source" v-if="options.value !== 'action'">
+                  <DiscoveryField :options="options" :data="props.options" ></DiscoveryField>
                 </td>
 
                 <td>
-                    <router-link :to="'/' + reference + '/' + props.item.id + '/edit'" tag="button" v-if="edit">
+                    <router-link :to="'/' + reference + '/' + props.options.id + '/edit'" tag="button" v-if="edit">
                         <v-icon>edit</v-icon>
                     </router-link>
-                    <router-link :to="'/' + reference + '/' + props.item.id + '/show'" tag="button" v-if="show">
+                    <router-link :to="'/' + reference + '/' + props.options.id + '/show'" tag="button" v-if="show">
                         <v-icon>visibility</v-icon>
                     </router-link>
 
@@ -88,20 +90,22 @@
               <Show 
                 v-if="props.expanded === 'show'" 
                 :closeFn="() => props.expanded = undefined"
-                :editFn="() => props.expanded = 'edit'"  
+                :editFn="() => props.expanded = 'edit'" 
+                :dataSource="dataSource" 
                 :reference="reference" 
                 :show="showExpand"
                 :edit="editExpand"
-                :params="{id: props.item.id}"></Show>
+                :params="{id: props.options.id}"></Show>
 
               <Edit 
                 v-if="props.expanded === 'edit'"
                 :closeFn="() => props.expanded = undefined"
-                :showFn="() => props.expanded = 'show'" 
+                :showFn="() => props.expanded = 'show'"
+                :dataSource="dataSource" 
                 :reference="reference" 
                 :show="showExpand" 
                 :edit="editExpand" 
-                :params="{id: props.item.id}"></Edit>
+                :params="{id: props.options.id}"></Edit>
             
             </template>
 
@@ -132,8 +136,6 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 
 <script>
-import { mapGetters, mapAc, mapGetterstions } from 'vuex';
-
 import Show from "./Show";
 import Edit from "./Edit";
 import DiscoveryField from "../discovery/fields/DiscoveryField";
@@ -202,6 +204,7 @@ export default {
     "edit",
     "show",
     "new",
+    "dataSource",
     "reference",
     "showExpand",
     "editExpand"
@@ -209,9 +212,6 @@ export default {
   computed: {
     _new() {
       return this.new;
-    },
-    CRUD() {
-      return this.$store.state.CRUD;
     },
     defaultChipsFilter() {
       return [];
@@ -346,7 +346,7 @@ export default {
         value: field.source
       }));
 
-      this.$data.datasource = this.CRUD;
+      this.$data.datasource = this.dataSource();
       this.$data.localListFilter.fields = this.$data.localList.fields.filter(
         field => !!field.filter
       );
@@ -363,19 +363,17 @@ export default {
      * SETA OESTADO DO FILTRO
      */
     setStateFilter() {
-      localStorage.setItem(
+      localStorage.setoptions(
         `${this.reference}.list.filter`,
         JSON.stringify(this.chipsFilter)
       );
-      localStorage.setItem(
+      localStorage.setoptions(
         `${this.reference}.list.pagination`,
         JSON.stringify({
           ...this.pagination,
           offset: 0
         })
       );
-
-      console.log(this.pagination);
 
       /**
        * BASE64
@@ -404,17 +402,17 @@ export default {
       const KEY_LIST_FILTER = `${this.reference}.list.filter`;
       const KEY_LIST_PAGINATION = `${this.reference}.list.pagination`;
 
-      if (localStorage.getItem(KEY_LIST_FILTER)) {
+      if (localStorage.getoptions(KEY_LIST_FILTER)) {
         this.$data.chipsFilter = JSON.parse(
-          localStorage.getItem(KEY_LIST_FILTER) || "[]"
+          localStorage.getoptions(KEY_LIST_FILTER) || "[]"
         );
       } else {
         this.$data.chipsFilter = this.defaultChipsFilter;
       }
 
-      if (localStorage.getItem(KEY_LIST_PAGINATION)) {
+      if (localStorage.getoptions(KEY_LIST_PAGINATION)) {
         this.$data.pagination = JSON.parse(
-          localStorage.getItem(KEY_LIST_PAGINATION) || "{}"
+          localStorage.getoptions(KEY_LIST_PAGINATION) || "{}"
         );
       } else {
         this.$data.pagination = {
@@ -424,8 +422,8 @@ export default {
       }
 
       if (
-        !localStorage.getItem(KEY_LIST_FILTER) ||
-        !localStorage.getItem(KEY_LIST_PAGINATION)
+        !localStorage.getoptions(KEY_LIST_FILTER) ||
+        !localStorage.getoptions(KEY_LIST_PAGINATION)
       ) {
         this.setStateFilter();
       }
@@ -475,11 +473,11 @@ export default {
         : selected;
     },
     /**
-     * REMOVE UM ITEM DOS FILTROS ADICIONADOS
+     * REMOVE UM options DOS FILTROS ADICIONADOS
      */
-    removeItemFilter(item) {
+    removeoptionsFilter(options) {
       this.$data.chipsFilter = this.$data.chipsFilter.filter(
-        _item => item.source !== _item.source
+        _options => options.source !== _options.source
       );
       this.setStateFilter();
       this.load();
@@ -502,9 +500,9 @@ export default {
           {
             ...this.$data.pagination,
             filters: this.$data.chipsFilter
-              .filter(item => !!item.search)
-              .reduce((acc, item) => {
-                acc[item.source] = item.search;
+              .filter(options => !!options.search)
+              .reduce((acc, options) => {
+                acc[options.source] = options.search;
                 return acc;
               }, {})
           },

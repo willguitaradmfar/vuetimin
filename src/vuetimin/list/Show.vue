@@ -71,19 +71,22 @@ export default {
     "show",
     "list",
     "edit",
-    "dataSource",
     "reference",
     "params",
     "closeFn",
     "editFn"
   ],
+  computed: {
+    CRUD() {
+      return this.$store.state.CRUD;
+    }
+  },
   data: () => ({
     snackbarText: "",
     snackbar: false,
     data: {},
     loading: true,
     removing: false,
-    datasource: null,
     dialog: false,
     localList: {
       fields: []
@@ -97,8 +100,6 @@ export default {
   },
   methods: {
     load() {
-      this.$data.datasource = this.dataSource();
-
       this.$data.localList.fields = this.show.fields.map(field => ({
         ...field,
         value: field.source
@@ -106,7 +107,7 @@ export default {
 
       this.$data.loading = true;
 
-      this.datasource.GET_ONE(
+      this.CRUD.GET_ONE(
         this.reference,
         {
           ...(this.params || this.$route.params)
@@ -126,7 +127,7 @@ export default {
     remove() {
       this.$data.removing = true;
       this.$data.dialog = false;
-      this.datasource.DELETE(
+      this.CRUD.DELETE(
         this.reference,
         this.params || this.$route.params,
         (err, response) => {
