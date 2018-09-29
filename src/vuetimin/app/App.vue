@@ -88,6 +88,8 @@ import Edit from "./Edit";
 
 import New from "./New";
 
+import store from "./store";
+
 export default {
   name: "App",
   computed: {
@@ -154,19 +156,7 @@ export default {
     this.$router.addRoutes(routes);
 
     for (let metadata of this.metadata) {
-      this.$store.registerModule(metadata.reference, {
-        namespaced: true,
-        state() {
-          return {
-            title: "title_" + metadata.reference
-          };
-        },
-        getters: {
-          getTitle(state) {
-            return state.title;
-          }
-        }
-      });
+      store.registerStore.call(this, metadata.reference);
     }
   },
   data() {

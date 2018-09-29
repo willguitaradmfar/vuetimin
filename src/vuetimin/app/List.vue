@@ -216,6 +216,9 @@ export default {
     defaultChipsFilter() {
       return [];
     },
+    data(){
+      return this.$store.state[this.reference].data
+    },
     defaultPagination() {
       return {
         /**

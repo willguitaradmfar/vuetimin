@@ -4,48 +4,44 @@ import Testeresource from "../../vuetimin-datasource";
 
 export default {
   state: {
-    endpoint: '',
     needAuth: true,
     metadata: [],
     CRUD: null
   },
   mutations: {
-    setEndpoint(state, endpoint) {
-      state.endpoint = endpoint
-    },
-    needAuth(state){
+    NEED_AUTH(state){
       state.needAuth = true
     },
-    notNeedAuth(state){
+    NOT_NEED_AUTH(state){
       state.needAuth = false
     },
-    setMetadata(state, metadata) {
+    SET_METADATA(state, metadata) {
       state.metadata = metadata
     },
-    setCRUD(state, CRUD) {
+    SET_CRUD(state, CRUD) {
       state.CRUD = CRUD
     }
   },
   actions: {
     async getResources({ commit }){
       const metadata = await data.get()
-      commit('setMetadata', metadata.data.resources)
+      commit('SET_METADATA', metadata.data.resources)
     },
     makeCRUD({ commit }) {
-      commit('setCRUD', Testeresource.mock())
+      commit('SET_CRUD', Testeresource.mock())
     }, 
     auth({ commit }, { username, password }) {
       if (localStorage.getItem("token") == "true") {
-        return commit('notNeedAuth')
+        return commit('NOT_NEED_AUTH')
       }
 
       if (username === "will" && password === "123") {
         localStorage.setItem("token", "true");
 
-        return commit('notNeedAuth')
+        return commit('NOT_NEED_AUTH')
       }
 
-      return commit('needAuth')
+      return commit('NEED_AUTH')
     }
   }
 }
