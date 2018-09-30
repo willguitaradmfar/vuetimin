@@ -3,6 +3,8 @@ export default {
 
         options = options || { }
 
+        const _vuetiminState = this.$store.state.vuetimin
+
         return this.$store.registerModule(name, {
             namespaced: true,
             state: {
@@ -20,10 +22,30 @@ export default {
             },
             actions: {
                 ...options.actions,
-                load({ commit }, { args }){
-                    return this.$store.state.vuetimin
+                load({ commit }, args){
+                    return _vuetiminState
                         .CRUD
                         .GET_LIST(name, { ...args });
+                },
+                getOne({ commit }, args){
+                    return _vuetiminState
+                        .CRUD
+                        .GET_ONE(name, { ...args });
+                },
+                update({ commit }, args){
+                    return _vuetiminState
+                        .CRUD
+                        .UPDATE(name, { ...args });
+                },
+                delete({ commit }, args){
+                    return _vuetiminState
+                        .CRUD
+                        .DELETE(name, { ...args });
+                },
+                create({ commit }, args){
+                    return _vuetiminState
+                        .CRUD
+                        .CREATE(name, { ...args });
                 }
             }
         })

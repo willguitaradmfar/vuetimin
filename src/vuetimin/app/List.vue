@@ -132,8 +132,6 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 
 <script>
-import { mapGetters, mapAc, mapGetterstions } from 'vuex';
-
 import Show from "./Show";
 import Edit from "./Edit";
 import DiscoveryField from "../discovery/fields/DiscoveryField";
@@ -210,14 +208,11 @@ export default {
     _new() {
       return this.new;
     },
-    CRUD() {
-      return this.$store.state.vuetimin.CRUD;
-    },
     defaultChipsFilter() {
       return [];
     },
-    data(){
-      return this.$store.state[this.reference].data
+    data() {
+      return this.$store.state[this.reference].data;
     },
     defaultPagination() {
       return {
@@ -494,35 +489,34 @@ export default {
       this.$data.loadTimeout = setTimeout(() => {
         this.$data.loading = true;
 
-        this.CRUD.GET_LIST(
-          this.reference,
-          {
-            ...this.$data.pagination,
-            filters: this.$data.chipsFilter
-              .filter(item => !!item.search)
-              .reduce((acc, item) => {
-                acc[item.source] = item.search;
-                return acc;
-              }, {})
-          },
-          (err, response) => {
-            if (err) {
-              this.$data.snackbarText = err.message;
-              this.$data.loading = false;
-              this.$data.dataList = [];
-              this.$data.nodata = true;
-              this.$data.total = 0;
-              return (this.$data.snackbar = true);
-            }
+        const args = {
+          ...this.$data.pagination,
+          filters: this.$data.chipsFilter
+            .filter(item => !!item.search)
+            .reduce((acc, item) => {
+              acc[item.source] = item.search;
+              return acc;
+            }, {})
+        };
 
+        this.$store
+          .dispatch(`${this.reference}/load`, args)
+          .then(response => {
             this.$data.dataList = response.data;
             this.$data.total = parseInt(response.total || "0");
             this.$data.loading = false;
             if (this.$data.dataList.length === 0) {
               this.$data.nodata = true;
             }
-          }
-        );
+          })
+          .catch(err => {
+            this.$data.snackbarText = err.message;
+            this.$data.loading = false;
+            this.$data.dataList = [];
+            this.$data.nodata = true;
+            this.$data.total = 0;
+            this.$data.snackbar = true
+          });
       }, 200);
     }
   }

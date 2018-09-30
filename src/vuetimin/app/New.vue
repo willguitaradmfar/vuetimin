@@ -52,22 +52,16 @@ export default {
   created() {
     this.load();
   },
-  computed:{
-    CRUD() {
-      return this.$store.state.vuetimin.CRUD;
-    }
-  },
   components: {
     DiscoveryInput
   },
   methods: {
     load() {
-
       /**
        * INICIALIZAÇÃO DOS DADOS
        */
-      for(let field of this.new.fields){
-          this.$data.data[field.source] = undefined
+      for (let field of this.new.fields) {
+        this.$data.data[field.source] = undefined;
       }
 
       this.$data.localList.fields = this.new.fields.map(field => ({
@@ -77,23 +71,24 @@ export default {
     },
     save() {
       this.$data.loading = true;
-      this.CRUD.CREATE(
-        this.reference,
-        {
-          data: this.localList.fields.reduce((acc, item) => {
-            acc[item.source] = this.data[item.source];
-            return acc;
-          }, {})
-        },
-        (err, response) => {
-          if (err) {
-            this.$data.snackbarText = err.message;
-            this.$data.loading = false;
-            return (this.$data.snackbar = true);
-          }
+
+      const args = {
+        data: this.localList.fields.reduce((acc, item) => {
+          acc[item.source] = this.data[item.source];
+          return acc;
+        }, {})
+      };
+
+      this.$store
+        .dispatch(`${this.reference}/create`, args)
+        .then(response => {
           this.$router.push(`/${this.reference}/${response.id}/show`);
-        }
-      );
+        })
+        .catch(err => {
+          this.$data.snackbarText = err.message;
+          this.$data.loading = false;
+          this.$data.snackbar = true;
+        });
     }
   }
 };

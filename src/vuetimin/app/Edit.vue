@@ -38,25 +38,11 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <script>
-
 import DiscoveryInput from "../discovery/inputs/DiscoveryInput";
 
 export default {
-  props: [
-    "list",
-    "edit",
-    "show",
-    "params",
-    "reference",
-    "closeFn",
-    "showFn"
-  ],
-  computed:{
-    CRUD() {
-      return this.$store.state.vuetimin.CRUD;
-    }
-  },
-  components:{
+  props: ["list", "edit", "show", "params", "reference", "closeFn", "showFn"],
+  components: {
     DiscoveryInput
   },
   data: () => ({
@@ -81,41 +67,38 @@ export default {
 
       this.$data.loading = true;
 
-      this.CRUD.GET_ONE(
-        this.reference,
-        {
-          ...(this.params || this.$route.params)
-        },
-        (err, response) => {
-          if (err) {
+      const args = {
+        ...(this.params || this.$route.params)
+      };
+
+      this.$store
+        .dispatch(`${this.reference}/getOne`, args)
+        .then(response => {
+          this.$data.data = response;
+          this.$data.loading = false;
+        })
+        .catch(err => {
             this.$data.snackbarText = err.message;
             this.$data.loading = false;
             this.$data.lock = true;
             this.$data.data = {};
-            return (this.$data.snackbar = true);
-          }
-          this.$data.data = response;
-          this.$data.loading = false;
-        }
-      );
+            this.$data.snackbar = true
+        });
     },
     save() {
       this.$data.loading = true;
-      this.CRUD.UPDATE(
-        this.reference,
-        {
-          data: this.localList.fields.reduce((acc, item) => {
-            acc[item.source] = this.data[item.source];
-            return acc;
-          }, {}),
-          id: this.$route.params.id || this.params.id
-        },
-        (err, response) => {
-          if (err) {
-            this.$data.snackbarText = err.message;
-            this.$data.loading = false;
-            return (this.$data.snackbar = true);
-          }
+
+      const args = {
+        data: this.localList.fields.reduce((acc, item) => {
+          acc[item.source] = this.data[item.source];
+          return acc;
+        }, {}),
+        id: this.$route.params.id || this.params.id
+      };
+
+      this.$store
+        .dispatch(`${this.reference}/update`, args)
+        .then(response => {
           if (this.showFn) {
             this.showFn();
           } else {
@@ -123,8 +106,12 @@ export default {
               `/${this.reference}/${this.$route.params.id}/show`
             );
           }
-        }
-      );
+        })
+        .catch(err => {
+            this.$data.snackbarText = err.message;
+            this.$data.loading = false;
+            this.$data.snackbar = true
+        });
     }
   }
 };

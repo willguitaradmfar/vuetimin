@@ -67,20 +67,7 @@
 import DiscoveryInput from "../discovery/inputs/DiscoveryInput";
 
 export default {
-  props: [
-    "show",
-    "list",
-    "edit",
-    "reference",
-    "params",
-    "closeFn",
-    "editFn"
-  ],
-  computed: {
-    CRUD() {
-      return this.$store.state.vuetimin.CRUD;
-    }
-  },
+  props: ["show", "list", "edit", "reference", "params", "closeFn", "editFn"],
   data: () => ({
     snackbarText: "",
     snackbar: false,
@@ -92,7 +79,7 @@ export default {
       fields: []
     }
   }),
-  components:{
+  components: {
     DiscoveryInput
   },
   created() {
@@ -107,36 +94,32 @@ export default {
 
       this.$data.loading = true;
 
-      this.CRUD.GET_ONE(
-        this.reference,
-        {
-          ...(this.params || this.$route.params)
-        },
-        (err, response) => {
-          if (err) {
-            this.$data.snackbarText = err.message;
-            this.$data.loading = false;
-            this.$data.data = {};
-            return (this.$data.snackbar = true);
-          }
+      const args = {
+        ...(this.params || this.$route.params)
+      };
+
+      this.$store
+        .dispatch(`${this.reference}/getOne`, args)
+        .then(response => {
           this.$data.data = response;
           this.$data.loading = false;
-        }
-      );
+        })
+        .catch(err => {
+          this.$data.snackbarText = err.message;
+          this.$data.loading = false;
+          this.$data.data = {};
+          this.$data.snackbar = true;
+        });
     },
     remove() {
       this.$data.removing = true;
       this.$data.dialog = false;
-      this.CRUD.DELETE(
-        this.reference,
-        this.params || this.$route.params,
-        (err, response) => {
-          if (err) {
-            this.$data.snackbarText = err.message;
-            this.$data.loading = false;
-            this.$data.removing = false;
-            return (this.$data.snackbar = true);
-          }
+
+      const args = this.params || this.$route.params;
+
+      this.$store
+        .dispatch(`${this.reference}/delete`, args)
+        .then(response => {
           this.$data.removing = false;
 
           if (this.closeFn) {
@@ -144,8 +127,13 @@ export default {
           } else {
             this.$router.push(`/${this.reference}`);
           }
-        }
-      );
+        })
+        .catch(err => {
+          this.$data.snackbarText = err.message;
+          this.$data.loading = false;
+          this.$data.removing = false;
+          this.$data.snackbar = true;
+        });
     }
   }
 };
