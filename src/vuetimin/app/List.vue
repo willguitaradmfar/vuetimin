@@ -47,7 +47,7 @@
     </v-toolbar>
 
     <v-card-text>
-        <v-data-table :pagination.sync="pagination" :total-items="total" :headers="localList.fields" :items="dataList" :loading="loading" select-all v-model="selected" item-key="id" class="elevation-1">
+        <v-data-table :pagination.sync="pagination" :total-items="total" :headers="localList.fields" :items="data" :loading="loading" select-all v-model="selected" item-key="id" class="elevation-1">
             <v-progress-linear slot="progress" height="2" indeterminate></v-progress-linear>
             <template slot="headerCell" slot-scope="props">
                 <v-tooltip bottom>
@@ -214,6 +214,9 @@ export default {
     data() {
       return this.$store.state[this.reference].data;
     },
+    total() {
+      return this.$store.state[this.reference].total;
+    },
     defaultPagination() {
       return {
         /**
@@ -290,19 +293,9 @@ export default {
       },
 
       /**
-       * ARMAZENAMENTO DOS DADOS
-       */
-      dataList: [],
-
-      /**
        * DADOS SELECIONADOS PARA AÇÃO MULTIPLAS
        */
       selected: [],
-
-      /**
-       * TOTAL DE REGISTRO
-       */
-      total: 10,
 
       /**
        * CONTROLE DE TIMEOUT
@@ -332,7 +325,7 @@ export default {
 
       this.$data.hasFilter = !!this.$data.chipsFilter.length;
 
-      this.$data.dataList = [];
+      this.$data.data = [];
 
       this.$data.localList.fields = this.list.fields.map(field => ({
         ...field,
@@ -502,19 +495,15 @@ export default {
         this.$store
           .dispatch(`${this.reference}/load`, args)
           .then(response => {
-            this.$data.dataList = response.data;
-            this.$data.total = parseInt(response.total || "0");
             this.$data.loading = false;
-            if (this.$data.dataList.length === 0) {
+            if (this.$data.data.length === 0) {
               this.$data.nodata = true;
             }
           })
           .catch(err => {
             this.$data.snackbarText = err.message;
             this.$data.loading = false;
-            this.$data.dataList = [];
             this.$data.nodata = true;
-            this.$data.total = 0;
             this.$data.snackbar = true
           });
       }, 200);

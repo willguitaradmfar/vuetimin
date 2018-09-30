@@ -5,7 +5,7 @@ import faker from 'faker'
 const randomError = () => {
     const n = Math.round(Math.random() * 10)
 
-    if (n > 9.5) {
+    if (n > 7.5) {
         return true
     }
 
@@ -50,7 +50,7 @@ const mock = () => {
                 )
                 return setTimeout(() => {
 
-                    if(randomError()) return reject(new Error(`Mensagem de erro nesta ação`))
+                    if (randomError()) return reject(new Error(`Mensagem de erro nesta ação`))
 
                     return resolve({
                         total: 2000,
@@ -66,69 +66,68 @@ const mock = () => {
 
         },
         GET_ONE(reference, args) {
-            console.log(
-                `GET_ONE /${reference}?${JSON.stringify(args, null, '\t')}`
-            )
-
-            if(randomError()) return reject(new Error(`Mensagem de erro nesta ação`))
-
             return new Promise((resolve, reject) => {
-                return setTimeout(() => {
+                console.log(
+                    `GET_ONE /${reference}?${JSON.stringify(args, null, '\t')}`
+                )
+
+                if (randomError()) return reject(new Error(`Mensagem de erro nesta ação`))
+                                return setTimeout(() => {
                     return resolve({
                         id: Math.round(Math.random() * 200000),
                         ...getDataFaker()
                     })
                 }, 1000 * 1)
+
             })
         },
         CREATE(reference, args, cb) {
-            console.log(
-                `CREATE /${reference}?${JSON.stringify(args, null, '\t')}`
-            )
-
-            if(randomError()) return reject(new Error(`Mensagem de erro nesta ação`))
-
             return new Promise((resolve, reject) => {
+                console.log(
+                    `CREATE /${reference}?${JSON.stringify(args, null, '\t')}`
+                )
 
+                if (randomError()) return reject(new Error(`Mensagem de erro nesta ação`))
+                
                 return setTimeout(() => {
                     return resolve({
                         id: Math.round(Math.random() * 200000),
                         ...getDataFaker()
                     })
                 }, 1000 * 1)
+
             })
         },
         UPDATE(reference, args, cb) {
-            console.log(
-                `UPDATE /${reference}?${JSON.stringify(args, null, '\t')}`
-            )
-
-            if(randomError()) return reject(new Error(`Mensagem de erro nesta ação`))
-
             return new Promise((resolve, reject) => {
+                console.log(
+                    `UPDATE /${reference}?${JSON.stringify(args, null, '\t')}`
+                )
 
+                if (randomError()) return reject(new Error(`Mensagem de erro nesta ação`))
+                
                 return setTimeout(() => {
                     return resolve({
                         id: Math.round(Math.random() * 200000),
                         ...getDataFaker()
                     })
                 }, 1000 * 1)
+
             })
         },
         DELETE(reference, args, cb) {
-            console.log(
-                `DELETE /${reference}?${JSON.stringify(args, null, '\t')}`
-            )
-
-
             return new Promise((resolve, reject) => {
-
+                console.log(
+                    `DELETE /${reference}?${JSON.stringify(args, null, '\t')}`
+                )
+                
                 return setTimeout(() => {
                     return resolve({
                         id: Math.round(Math.random() * 200000),
                         ...getDataFaker()
                     })
                 }, 1000 * 1)
+
             })
         }
     }
