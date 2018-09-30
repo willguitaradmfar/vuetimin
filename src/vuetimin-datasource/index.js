@@ -72,7 +72,7 @@ const mock = () => {
                 )
 
                 if (randomError()) return reject(new Error(`Mensagem de erro nesta ação`))
-                                return setTimeout(() => {
+                return setTimeout(() => {
                     return resolve({
                         id: Math.round(Math.random() * 200000),
                         ...getDataFaker()
@@ -88,7 +88,7 @@ const mock = () => {
                 )
 
                 if (randomError()) return reject(new Error(`Mensagem de erro nesta ação`))
-                
+
                 return setTimeout(() => {
                     return resolve({
                         id: Math.round(Math.random() * 200000),
@@ -105,7 +105,7 @@ const mock = () => {
                 )
 
                 if (randomError()) return reject(new Error(`Mensagem de erro nesta ação`))
-                
+
                 return setTimeout(() => {
                     return resolve({
                         id: Math.round(Math.random() * 200000),
@@ -120,7 +120,7 @@ const mock = () => {
                 console.log(
                     `DELETE /${reference}?${JSON.stringify(args, null, '\t')}`
                 )
-                
+
                 return setTimeout(() => {
                     return resolve({
                         id: Math.round(Math.random() * 200000),

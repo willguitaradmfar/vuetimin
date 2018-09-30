@@ -10,6 +10,7 @@ export default {
             state: {
                 ...options.state,
                 data: [],
+                form: {},
                 total: 0
             },
             mutations: {
@@ -19,7 +20,10 @@ export default {
                 },
                 SET_TOTAL(state, total) {
                     state.total = total
-                }
+                },
+                SET_FORM(state, form) {
+                    state.form = form
+                },
             },
             getters: {
                 ...options.getters
@@ -43,8 +47,10 @@ export default {
                 async getOne({ commit }, args) {
                     try {
                         const response = await _vuetiminState.CRUD.GET_ONE(name, { ...args })
+                        commit('SET_FORM', response)
                         return response
                     } catch (err) {
+                        commit('SET_FORM', {})
                         throw err
                     }
                 },

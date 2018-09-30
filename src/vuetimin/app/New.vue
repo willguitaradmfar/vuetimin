@@ -13,7 +13,7 @@
       <v-card-text>
           <v-layout row wrap>
             <v-flex v-for="item in localList.fields" v-bind:key="item.source">            
-                  <DiscoveryInput :loading="loading" :data="data" :item="item" />            
+              <DiscoveryInput :loading="loading" :data="form" :item="item" />            
             </v-flex>
           </v-layout>
       </v-card-text>
@@ -43,12 +43,16 @@ export default {
   data: () => ({
     snackbarText: "",
     snackbar: false,
-    data: {},
     loading: false,
     localList: {
       fields: []
     }
   }),
+  computed: {
+    form() {
+      return this.$store.state[this.reference].form;
+    }
+  },
   created() {
     this.load();
   },
@@ -61,7 +65,7 @@ export default {
        * INICIALIZAÇÃO DOS DADOS
        */
       for (let field of this.new.fields) {
-        this.$data.data[field.source] = undefined;
+        this.form[field.source] = undefined;
       }
 
       this.$data.localList.fields = this.new.fields.map(field => ({
@@ -74,7 +78,7 @@ export default {
 
       const args = {
         data: this.localList.fields.reduce((acc, item) => {
-          acc[item.source] = this.data[item.source];
+          acc[item.source] = this.form[item.source];
           return acc;
         }, {})
       };

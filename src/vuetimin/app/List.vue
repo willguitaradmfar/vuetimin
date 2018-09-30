@@ -502,9 +502,9 @@ export default {
           })
           .catch(err => {
             this.$data.snackbarText = err.message;
+            this.$data.snackbar = true
             this.$data.loading = false;
             this.$data.nodata = true;
-            this.$data.snackbar = true
           });
       }, 200);
     }

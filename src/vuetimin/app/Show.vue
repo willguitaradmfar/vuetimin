@@ -42,7 +42,7 @@
       <v-card-text>        
         <v-layout row wrap>
           <v-flex v-for="item in localList.fields" v-bind:key="item.source">          
-              <DiscoveryInput :data="data" :item="item" :disabled="true" />
+              <DiscoveryInput :data="form" :item="item" :disabled="true" />
           </v-flex>
         </v-layout>        
       </v-card-text>
@@ -71,7 +71,6 @@ export default {
   data: () => ({
     snackbarText: "",
     snackbar: false,
-    data: {},
     loading: true,
     removing: false,
     dialog: false,
@@ -79,6 +78,11 @@ export default {
       fields: []
     }
   }),
+  computed:{
+    form(){
+      return this.$store.state[this.reference].form
+    }
+  },
   components: {
     DiscoveryInput
   },
@@ -101,14 +105,12 @@ export default {
       this.$store
         .dispatch(`${this.reference}/getOne`, args)
         .then(response => {
-          this.$data.data = response;
           this.$data.loading = false;
         })
         .catch(err => {
           this.$data.snackbarText = err.message;
-          this.$data.loading = false;
-          this.$data.data = {};
           this.$data.snackbar = true;
+          this.$data.loading = false;
         });
     },
     remove() {

@@ -16,7 +16,7 @@
       <v-card-text>      
         <v-layout row wrap>
             <v-flex v-for="item in localList.fields" v-bind:key="item.source"> 
-                <DiscoveryInput :data="data" :item="item" :disabled="loading || lock" />
+                <DiscoveryInput :data="form" :item="item" :disabled="loading || lock" />
             </v-flex>
         </v-layout>        
       </v-card-text>
@@ -45,10 +45,14 @@ export default {
   components: {
     DiscoveryInput
   },
+  computed: {
+    form(){
+      return this.$store.state[this.reference].form
+    }
+  },
   data: () => ({
     snackbarText: "",
     snackbar: false,
-    data: {},
     loading: true,
     lock: false,
     localList: {
@@ -74,15 +78,13 @@ export default {
       this.$store
         .dispatch(`${this.reference}/getOne`, args)
         .then(response => {
-          this.$data.data = response;
           this.$data.loading = false;
         })
         .catch(err => {
             this.$data.snackbarText = err.message;
+            this.$data.snackbar = true;
             this.$data.loading = false;
             this.$data.lock = true;
-            this.$data.data = {};
-            this.$data.snackbar = true
         });
     },
     save() {
@@ -90,7 +92,7 @@ export default {
 
       const args = {
         data: this.localList.fields.reduce((acc, item) => {
-          acc[item.source] = this.data[item.source];
+          acc[item.source] = this.form[item.source];
           return acc;
         }, {}),
         id: this.$route.params.id || this.params.id
