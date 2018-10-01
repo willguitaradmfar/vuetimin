@@ -5,7 +5,7 @@ import faker from 'faker'
 const randomError = () => {
     const n = Math.round(Math.random() * 10)
 
-    if (n > 7.5) {
+    if (n > 9.5) {
         return true
     }
 

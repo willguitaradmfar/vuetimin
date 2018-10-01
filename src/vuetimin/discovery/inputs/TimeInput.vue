@@ -31,7 +31,7 @@
 import moment from "moment";
 
 export default {
-  props: ["data", "item", "disabled"],  
+  props: ["data", "item", "disabled"],
   computed: {
     date: {
       get(){

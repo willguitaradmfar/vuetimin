@@ -30,7 +30,8 @@ import {
   VDatePicker,
   VTimePicker,
   VMenu,
-  VExpansionPanel
+  VExpansionPanel,
+  VSlider
   
 } from 'vuetify'
 import 'vuetify/src/stylus/app.styl'
@@ -66,8 +67,8 @@ Vue.use(Vuetify, {
     VDatePicker,
     VTimePicker,
     VMenu,
-    VExpansionPanel
-    
+    VExpansionPanel,
+    VSlider
   },
   theme: {
     primary: '#ee44aa',

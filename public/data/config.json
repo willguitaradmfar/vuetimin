@@ -341,10 +341,17 @@
 						"source": "system_semver"
 					},
 					{						
+						"source": "random_number",
+						"reference": {
+							"type": "slider"
+						}
+						
+					},
+					{						
 						"text": "Data de Nasc.",
 						"source": "date_future",
 						"reference": {
-							"type": "date"
+							"type": "time"
 						}
 					}
 				]
@@ -390,6 +397,15 @@
 					{
 						
 						"source": "system_semver"
+					},
+					{						
+						"source": "random_number",
+						"reference": {
+							"type": "slider",
+							"max": 55,
+							"min": 11
+						}
+						
 					},
 					
 					{						

@@ -21,7 +21,7 @@
                 :disabled="disabled"
                 ></v-text-field>
             <v-date-picker v-model="date" no-title scrollable v-if="!disabled">
-                <v-btn flat color="primary" @click="$refs.menu.save(date)">OK</v-btn>
+                <v-btn flat color="primary" @click="setDate(date)">OK</v-btn>
             </v-date-picker>
       </v-menu> 
 </template>
@@ -31,23 +31,16 @@
 import moment from "moment";
 
 export default {
-  props: ["data", "item", "disabled"],  
+  props: ["data", "item", "disabled"],
+  methods:{
+    setDate(value){
+      this.data[this.item.source] = value
+      this.$refs.menu.save(value)
+    }
+  },
   computed: {
-    date: {
-      get(){
-        console.log('get', this.data, this.item.source);
-        
-        return this.data[this.item.source]
-      },
-      set(value){
-        console.log('set', value);
-        
-        this.data[this.item.source] = value
-      }
-    },
     dateFormatted: {
       get(){
-
         const date = moment(this.date)
 
         if(date._d.toString() === 'Invalid date') return
@@ -70,6 +63,7 @@ export default {
   },
   data(){
     return {
+      date: new Date(),
       hint: this.item.reference && this.item.reference.hint ? this.item.reference.hint :  'DD/MM/YYYY',
       regexHint: this.item.reference && this.item.reference.regexHint ? this.item.reference.regexHint :  /^\d{2}\/\d{2}\/\d{4}$/,
       mask: this.item.reference && this.item.reference.mask ? this.item.reference.mask :  '##/##/####'
